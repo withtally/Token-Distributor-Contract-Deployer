@@ -1,6 +1,14 @@
 ![Theme image for repository](resources/banner.png)
+
 Token Distributor Contract Deployer
 ======================
+
+### Tally
+
+Token Distributor is part of the suite of tools and service tally has in it's disposal. for more information on it:
+https://docs.tally.xyz/premium-features/dao-launcher
+
+### How to use
 
 Task to deploy a Token distributor:
 
@@ -16,3 +24,9 @@ npx hardhat tokenDistributor --network hardhat --root 0xROOT_OF_MERKLE_TREE \
 # start and end represent the block number
 # delegate is optional
 ```
+
+-------------
+
+Tally is not responsible for funds or contracts deployed with this tool, this is used for internal testing.
+
+-------------
