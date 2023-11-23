@@ -18,7 +18,7 @@ task('tokenDistributor', "Deploys a token distributor.")
         // HARDHAT LOG
         console.log(
             `network:\x1B[36m${hre.network.name}\x1B[37m`,
-            `\nsigner:\x1B[33m${signer.address}\x1B[37m\n`
+            `\nsigner address:\x1B[33m${signer.address}\x1B[37m\n`
         );
 
         // token data

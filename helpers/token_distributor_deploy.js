@@ -17,6 +17,7 @@ const tokenDistributor = async (
     _totalClaimable,
     _claimPeriodStart,
     _claimPeriodEnd,
+    _delegateTo,
     signer
 ) => {
     // We get the contract to deploy
