@@ -18,12 +18,12 @@ Task to deploy a Token distributor:
 npx hardhat tokenDistributor --network hardhat --root 0xROOT_OF_MERKLE_TREE \
     --token OxDELEGATE_ADDRESS \
     --total 1000000 \
-    --start 1000 \
+    --start 1000 \ 
     --end 2000 \
     --delegate OxDELEGATE_ADDRESS
 
 # total, start, end are integers
-# start and end represent the block number
+# start and end represent UNIX TIMES.
 # delegate is optional
 ```
 
