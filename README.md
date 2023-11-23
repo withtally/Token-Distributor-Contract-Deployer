@@ -10,6 +10,8 @@ https://docs.tally.xyz/premium-features/dao-launcher
 
 ### How to use
 
+The token contract must have been deployed previously due to a delegate method inside of vanilla token distributor. `( we may change it in the future )`
+
 Task to deploy a Token distributor:
 
 ```bash
