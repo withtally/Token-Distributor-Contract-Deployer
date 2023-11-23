@@ -27,7 +27,7 @@ task('tokenDistributor', "Deploys a token distributor.")
         const _totalClaimable = taskArgs.total;
         const _claimPeriodStart = taskArgs.start;
         const _claimPeriodEnd = taskArgs.end;
-        const _delegateTo = taskArgs.delegate;
+        const _delegateTo = taskArgs.delegate ? taskArgs.delegate : signer.address;
 
         // INFO LOGS
         console.log("root:\x1B[36m", _root, "\x1B[37m");
