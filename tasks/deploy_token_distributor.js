@@ -22,7 +22,7 @@ task('tokenDistributor', "Deploys a token distributor.")
         );
 
         // token data
-        const _root = taskArgs.root;
+        const _root = taskArgs.root;;
         const _token = taskArgs.token;
         const _totalClaimable = taskArgs.total;
         const _claimPeriodStart = taskArgs.start;

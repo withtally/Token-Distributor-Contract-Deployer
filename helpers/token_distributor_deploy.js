@@ -18,7 +18,8 @@ const tokenDistributor = async (
     _claimPeriodStart,
     _claimPeriodEnd,
     _delegateTo,
-    signer
+    signer,
+    gas = "30000000"
 ) => {
     // We get the contract to deploy
     const TokenDistributor = await hre.ethers.getContractFactory("TokenDistributor");
@@ -31,13 +32,13 @@ const tokenDistributor = async (
         _claimPeriodStart,
         _claimPeriodEnd,
         _delegateTo,
+        {   gasLimit: gas,   } // Pass the gas limit value as an option
     );
 
     // await deploy and get block number
     await tokenDistributor.deployed();
     return tokenDistributor
 }
-
 
 module.exports = {
     tokenDistributor,

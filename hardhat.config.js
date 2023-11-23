@@ -126,9 +126,15 @@ module.exports = {
   },
 
   networks: {
+    hardhat: {
+      gasLimit: 2100000,
+    },
     localhost: {
       url: "http://localhost:8545",
       accounts: ["0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"],
+      gas: 2100000,
+      gasPrice: 8000000000,
+      gasLimit: 2100000,
     },
     ganache: {
       url: "http://localhost:7545",
