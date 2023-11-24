@@ -44,7 +44,7 @@ const OPTIMISM_URL = process.env.OPTIMISM_URL
 // Arbitrum network nodes
 const ARBITRUM_URL = process.env.ARBITRUM_URL
 const ARBITRUM_NOVA_URL = process.env.ARBITRUM_NOVA_URL
-const ARBITRUM_SEPOLIAR_URL = process.env.ARBITRUM_SEPOLIAR_URL
+const ARBITRUM_SEPOLIA_URL = process.env.ARBITRUM_SEPOLIA_URL
 
 // Etherscan key
 const ETHERSCAN_KEY = process.env.ETHERSCAN_API_KEY
@@ -80,6 +80,7 @@ module.exports = {
       polygonMumbai: POLYGONSCAN_KEY,
       optimisticEthereum: OPT_ETHERSCAN_KEY,
       arbitrumOne: ARBISCAN_KEY,
+      arbitrumSepolia: ARBISCAN_KEY,
       "scroll-alpha": "EMPTY",
     },
     customChains: [
@@ -188,7 +189,7 @@ module.exports = {
       accounts: [PRIVATE_KEY],
     },
     arbitrumSepolia: {
-      url: ARBITRUM_SEPOLIAR_URL,
+      url: ARBITRUM_SEPOLIA_URL,
       accounts: [PRIVATE_KEY],
     },
   }
