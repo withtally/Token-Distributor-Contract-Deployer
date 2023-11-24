@@ -44,6 +44,7 @@ const OPTIMISM_URL = process.env.OPTIMISM_URL
 // Arbitrum network nodes
 const ARBITRUM_URL = process.env.ARBITRUM_URL
 const ARBITRUM_NOVA_URL = process.env.ARBITRUM_NOVA_URL
+const ARBITRUM_SEPOLIAR_URL = process.env.ARBITRUM_SEPOLIAR_URL
 
 // Etherscan key
 const ETHERSCAN_KEY = process.env.ETHERSCAN_API_KEY
@@ -88,6 +89,14 @@ module.exports = {
         urls: {
           apiURL: "https://api-goerli.arbiscan.io/api",
           browserURL: "https://goerli.arbiscan.io"
+        }
+      },
+      {
+        network: "arbitrumSepolia",
+        chainId: 421614,
+        urls: {
+          apiURL: "https://api-sepolia.arbiscan.io/api",
+          browserURL: "https://sepolia.arbiscan.io"
         }
       },
       {
@@ -176,6 +185,10 @@ module.exports = {
     },
     arbitrumNova: {
       url: ARBITRUM_NOVA_URL,
+      accounts: [PRIVATE_KEY],
+    },
+    arbitrumSepolia: {
+      url: ARBITRUM_SEPOLIAR_URL,
       accounts: [PRIVATE_KEY],
     },
   }
