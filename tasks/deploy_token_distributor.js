@@ -66,5 +66,5 @@ task('tokenDistributor', "Deploys a token distributor.")
         fs.appendFileSync('contracts.out', `${new Date()}\nToken contract deployed at: ${TokenDistributor.address}` +
         ` - ${hre.network.name} - block number: ${tdBlock.number}\n${verify_str}\n\n`);
 
-        fs.appendFileSync('contracts.out', `\n \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \n\n`);
+        fs.appendFileSync('contracts.out', `\n\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \n\n`);
     });
