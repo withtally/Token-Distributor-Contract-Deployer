@@ -1,23 +1,24 @@
-const { MerkleTree } = require("merkletreejs");
-const keccak256 = require("keccak256");
+import { MerkleTree } from "merkletreejs";
+import { keccak256 } from "keccak256";
+import { readCSV } from "../helpers/merkle_tree";
+import fs from "fs";
+import { task, HardhatRuntimeEnvironment } from 'hardhat/types';
 
-const { readCSV } = require("../helpers/merkle_tree");
 
-const fs = require("fs");
 
 task("tree", "Generates merkle proofs from CSV")
   .addParam("csv", "Path to CSV file")
-  .setAction(async (taskArgs) => {
+  .setAction(async (taskArgs: { csv: string },hre: HardhatRuntimeEnvironment) => {
     console.log("\nMerkle Tree");
     const blocks = await readCSV(taskArgs.csv);
 
     // Convert blocks
     const buffers = blocks.map((b) => {
-      const addressBytes = ethers.utils.arrayify(b.address); // Convert address to bytes
-      const amountBytes = ethers.BigNumber.from(b.amount).toHexString();
+      const addressBytes = hre.ethers.utils.arrayify(b.address); // Convert address to bytes
+      const amountBytes = hre.ethers.BigNumber.from(b.amount).toHexString();
 
       // Concatenate address and amount bytes
-      const concatenatedBytes = ethers.utils.hexConcat([
+      const concatenatedBytes = hre.ethers.utils.hexConcat([
         addressBytes,
         amountBytes,
       ]);
@@ -40,7 +41,7 @@ task("tree", "Generates merkle proofs from CSV")
 
     console.log("root hash", root);
 
-    const proofs = {};
+    const proofs: Record<string, { amount: string; proofs: string[] }> = {};
 
     let totalAmount = ethers.BigNumber.from("0");
 
