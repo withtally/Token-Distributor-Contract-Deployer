@@ -1,5 +1,5 @@
 const { MerkleTree } = require("merkletreejs");
-// const keccak256 = require("keccak256");
+const keccak256 = require("keccak256");
 
 const { readCSV } = require("../helpers/merkle_tree");
 
@@ -8,18 +8,16 @@ const fs = require("fs");
 task("tree", "Generates merkle proofs from CSV")
   .addParam("csv", "Path to CSV file")
   .setAction(async (taskArgs) => {
+    console.log("\nMerkle Tree");
     const blocks = await readCSV(taskArgs.csv);
 
     // Convert blocks
     const buffers = blocks.map((b) => {
       const addressBytes = ethers.utils.arrayify(b.address); // Convert address to bytes
-      const amountBytes = ethers.utils.hexZeroPad(
-        ethers.BigNumber.from(b.amount),
-        32
-      );
+      const amountBytes = ethers.BigNumber.from(b.amount).toHexString();
 
       // Concatenate address and amount bytes
-      const concatenatedBytes = ethers.utils.concat([
+      const concatenatedBytes = ethers.utils.hexConcat([
         addressBytes,
         amountBytes,
       ]);
@@ -30,13 +28,17 @@ task("tree", "Generates merkle proofs from CSV")
       return hash;
     });
 
-    const merkleTree = new MerkleTree(buffers, ethers.utils.keccak256, {
-      sort: true,
+    const merkleTree = new MerkleTree(buffers, keccak256, {
+      sort: false,
+      // isBitcoinTree: false,
+      hashLeaves: false,
+      sortLeaves: false,
+      sortPairs: false,
     });
 
     const root = merkleTree.getHexRoot();
 
-    console.log("Merkle Root", root);
+    console.log("root hash", root);
 
     const proofs = {};
 
@@ -52,6 +54,8 @@ task("tree", "Generates merkle proofs from CSV")
 
       totalAmount = totalAmount.add(block.amount);
     });
+
+    console.log("Total amount:", totalAmount);
 
     const outputFile = `output_${totalAmount}_${root}.json`;
 

@@ -22,3 +22,5 @@ contracts.out
 
 arguments*.j
 arguments*.js
+
+output_*.json

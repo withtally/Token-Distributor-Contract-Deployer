@@ -49,7 +49,7 @@ npx hardhat tokenDistributor \
 - `start` and `end` represent distribution time period   
 - `delegate` is the address to delegate votes to (optional)
 
-### Validating contracts
+#### Validating contract
 
 After running the task to deploy the contract it will print in your terminal a command line in which you can copy and paste in terminal if you provide your etherscan API KEY in .env file you will be able to validate the contracts.
 
@@ -59,6 +59,63 @@ After running the task to deploy the contract it will print in your terminal a c
     Thu Nov 23 2023 17:52:12 GMT-0300 (Brasilia Standard Time)
     Token contract deployed at: 0x5FbDB2315678afecb367f032d93F642f64180aa3 - hardhat - block number: 1
     npx hardhat verify --network hardhat 0x5FbDB2315678afecb367f032d93F642f64180aa3 "0x5491ccc79ff3c51dc66717d3dfc3affe977e218763db87d261adc29580fdfbf8" "0x22d953bc460246199a02A4c6C2dAA929335645d0" 13700000000000000000000 1700782677 1706023862 0xf8533db72dcba94bf14a3C147A550Ae99d5F5daE
+```
+
+### Generating Merkle Tree
+
+To generate the merkle tree we will need a csv with the following format:
+
+```csv
+0x64ff820bbD2947B2f2D4355D4852F17eb0156D9A,10000
+0x64ff820bbD2947B2f2D4355D4852F17eb0156D9B,12000
+```
+
+- addresses to the left, quantity to the right
+- you have to consider in quantity the decimals of your contract
+- we read it row by row
+- so if you have 18 decimals it should be something like:
+
+```csv
+0x2a9e4c022d26d3277fdb60f36779142e1d53e03d,100000000000000000000
+0x34f5a5e655a1accbda3c584f83cdc03d97b19983,100000000000000000000
+0x42022c4c5b185cc871c898e729d765e26754bf03,100000000000000000000
+0x47af38230614fca9127bf6e95a3e602075f532d2,100000000000000000000
+0x54691741f6451f4eae797bd365a17b45ece418f3,100000000000000000000
+0xa5a3ee1f3e04bf47d246bd778127a557ed13d87d,100000000000000000000
+0xb546fb9f4db1cfff7cde73bc97ad426a4ff94fd4,100000000000000000000
+```
+
+```bash
+npx hardhat tree 
+  --csv /path/to/file
+
+# Example output:
+Merkle Tree
+root hash 0x043cda8ef0ba380f54f4123c83d044dd7cdcd4a8f6f7fdb6af940a6805c4ba84
+Total amount: BigNumber { value: "22000" }
+Wrote data to output_22000_0x043cda8ef0ba380f54f4123c83d044dd7cdcd4a8f6f7fdb6af940a6805c4ba84.json
+```
+
+We process the output file in the BE.
+
+Example how it looks like:
+
+```json
+{
+  "0xb1040D3ce131b3204E5229C80a8d5Ae271B2ef09": {
+    "amount": "100000000000000000000",
+    "proofs": [
+      "0xdc73020d35d4038876346b675ba8ed96b5ff70eaf0447ad6e151b7f2c03d756e",
+      "0xd672039d4528e62d9b2ec18dcac8ad63433623cab1748094ab2222e27039416d",
+      "0x02e243d9684ffb3fe4a70ea7cc3262ba2e97252cfae4d2f5c2d89c6a94eeee45",
+      "0xcb3d7aef30412ebba3b98168617cd4124ef538c38e2f3e10cdf1524cbf6265f8",
+      "0x08ceb8964833500c1cbfd779f89461af44b04660682e6499f706c4de0b05fcd7",
+      "0xce6f98d40bc9a04b26b418d05b81fd0304f7a024ac4f2b0e1127e6c48c3ab2b5",
+      "0x22ca8b5a233588f420eb5bb6a6bed360ec26d830355ce3f20e6875c465298ac2"
+    ]
+  },
+  ...
+}
 ```
 
 <!-- ### Testing
