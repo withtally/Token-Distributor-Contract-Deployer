@@ -1,6 +1,5 @@
 const { tokenDistributor } = require('../helpers/token_distributor_deploy');
 
-// const { getExpectedContractAddress } = require('../../helpers/expected_contract');
 const fs = require('fs');
 
 task('tokenDistributor', "Deploys a token distributor.")

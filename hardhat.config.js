@@ -25,6 +25,7 @@ require("dotenv").config();
 
 // requiring tasks.
 require("./tasks/deploy_token_distributor.js");
+require("./tasks/merkle_tree_generation.js");
 
 /* ========== DATA FROM .env ===========*/
 // Private key
