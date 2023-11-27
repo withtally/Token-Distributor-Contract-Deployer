@@ -1,15 +1,16 @@
 import { MerkleTree } from "merkletreejs";
-import { keccak256 } from "keccak256";
-import { readCSV } from "../helpers/merkle_tree";
+import  keccak256 from "keccak256";
+import readCSV  from "../helpers/merkle_tree";
 import fs from "fs";
-import { task, HardhatRuntimeEnvironment } from 'hardhat/types';
-
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { task } from "hardhat/config";
 
 
 task("tree", "Generates merkle proofs from CSV")
   .addParam("csv", "Path to CSV file")
   .setAction(async (taskArgs: { csv: string },hre: HardhatRuntimeEnvironment) => {
     console.log("\nMerkle Tree");
+
     const blocks = await readCSV(taskArgs.csv);
 
     // Convert blocks
@@ -24,7 +25,7 @@ task("tree", "Generates merkle proofs from CSV")
       ]);
 
       // Compute Keccak256 hash of concatenated bytes
-      const hash = ethers.utils.keccak256(concatenatedBytes);
+      const hash = hre.ethers.utils.keccak256(concatenatedBytes);
 
       return hash;
     });
@@ -43,7 +44,7 @@ task("tree", "Generates merkle proofs from CSV")
 
     const proofs: Record<string, { amount: string; proofs: string[] }> = {};
 
-    let totalAmount = ethers.BigNumber.from("0");
+    let totalAmount = hre.ethers.BigNumber.from("0");
 
     blocks.forEach((block, index) => {
       const proof = merkleTree.getHexProof(buffers[index]);

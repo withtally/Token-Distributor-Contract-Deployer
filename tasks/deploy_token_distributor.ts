@@ -1,4 +1,5 @@
-import { task, HardhatRuntimeEnvironment } from 'hardhat/types';
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { task } from "hardhat/config";
 import { tokenDistributor } from '../helpers/token_distributor_deploy';
 import fs from 'fs';
 
@@ -13,7 +14,9 @@ task('tokenDistributor', "Deploys a token distributor.")
     .setAction(async (taskArgs: any, hre: HardhatRuntimeEnvironment) => {
         console.log("Deploying a Token Distributor contract");
 
-        const signer = await hre.ethers.getSigner();
+        // const signer = await hre.ethers.getSigner();
+        const signers = await hre.ethers.getSigners();
+        const signer = signers[0];
 
         // HARDHAT LOG
         console.log(
