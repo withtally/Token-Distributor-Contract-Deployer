@@ -1,33 +1,21 @@
-////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                    //
-//      "C~                                                                           //
-//  ^'1XUpkhhQ_.                                                                      //
-//  ]?{/xXXJZphhc|,                                                                   //
-//  ]]]?]]]nzXXJbhhhw"        lqhhhhhhhhhhhhm              nhhh:  uhhu                //
-//  I]?]]]]]](|rXXC0whqu      !qhhhhhhhhhhhhm              nhhh:  uhhu                //
-//    ^_?]]]]?]]]1uXXLkh           Jhhh:                   nhhh:  uhhu                //
-//      ']]]]]]]]]]cXLkh           Jhhh:     ltczzzn[[zzx  xhhh:  uhhu xzz1'    ^zzz  //
-//      ']]?]]]]]]?cX(.(           Jhhh:    :hhhhhhhhhhhm  nhhh:  uhhu  hhh:    hhh:  //
-//      ']]]]?rXXY('               Jhhh:    hhhr    :hhhm  nhhh:  uhhu  ^Uhh/ :whh[   //
-//      ']]]]]rXUhh:               Jhhh:   zhhh:     [hhm  nhhh:  uhhu   lQhkruhhu    //
-//      ']]?]]rXUhh:               Jhhh:    hhh|    ]hhhm  nhhh:  uhhu    lqhhhhw:    //
-//      ']?]]]rXUhh:               Jhhh:    ihhhqZZwhhhhm  nhhh:  uhhu     mhhhhm     //
-//      '_]]]?rXn {^               /ccc^      {cQhmz <ccr  }ccc^  {cc{      hhh_      //
-//        '`l]:'I                                                         .mhh/.      //
-//                                                                        +phU,       //
-//                                                                                    //
-////////////////////////////////////////////////////////////////////////////////////////
 
-//----------
-require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-etherscan");
-require("dotenv").config();
+// require("@nomiclabs/hardhat-waffle");
+// require("@nomiclabs/hardhat-etherscan");
+
+//import dotenv config
+import "dotenv/config";
+import "@nomicfoundation/hardhat-toolbox";
+import "hardhat-deploy";
+// import type { HardhatUserConfig } from "hardhat/config";
+// import type { NetworkUserConfig } from "hardhat/types";
 
 // requiring tasks.
-require("./tasks/deploy_token_distributor.js");
-require("./tasks/merkle_tree_generation.js");
+
+import "./tasks/deploy_token_distributor";
+import "./tasks/merkle_tree_generation";
 
 /* ========== DATA FROM .env ===========*/
+// Private key
 // Private key
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 
@@ -52,11 +40,7 @@ const ETHERSCAN_KEY = process.env.ETHERSCAN_API_KEY
 const POLYGONSCAN_KEY = process.env.POLYGONSCAN_KEY
 const OPT_ETHERSCAN_KEY = process.env.OPT_ETHERSCAN_KEY
 const ARBISCAN_KEY = process.env.ARBISCAN_KEY
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
-module.exports = {
+const config: any = {
   solidity: {
     compilers: [
       {
@@ -69,11 +53,8 @@ module.exports = {
         }
       },
     ],
-
   },
   etherscan: {
-    // To get the correct names needed run: 
-    //  npx hardhat verify --list-networks
     apiKey: {
       mainnet: ETHERSCAN_KEY,
       sepolia: ETHERSCAN_KEY,
@@ -82,7 +63,6 @@ module.exports = {
       optimisticEthereum: OPT_ETHERSCAN_KEY,
       arbitrumOne: ARBISCAN_KEY,
       arbitrumSepolia: ARBISCAN_KEY,
-      "scroll-alpha": "EMPTY",
     },
     customChains: [
       {
@@ -135,52 +115,37 @@ module.exports = {
       }
     ]
   },
-
   networks: {
-    hardhat: {
-      gasLimit: 2100000,
-    },
     localhost: {
       url: "http://localhost:8545",
       accounts: ["0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"],
       gas: 2100000,
       gasPrice: 8000000000,
-      gasLimit: 2100000,
     },
     ganache: {
       url: "http://localhost:7545",
       accounts: [PRIVATE_KEY],
     },
-    // ETH - networks
-    // Ethereum mainnet config
     ethereum: {
       url: ETHEREUM_URL,
       accounts: [PRIVATE_KEY],
     },
-    // Sepolia testnet config
     sepolia: {
       url: SEPOLIA_URL,
       accounts: [PRIVATE_KEY],
     },
-    // Polygon (Matic) - networks
-    // Polygon mainnet config
     polygon: {
       url: POLYGON_URL,
       accounts: [PRIVATE_KEY],
     },
-    // Mumbai testnet config
     mumbai: {
       url: MUMBAI_URL,
       accounts: [PRIVATE_KEY],
     },
-    // Optimism - networks
-    // Optimism mainnet config
     optimism: {
       url: OPTIMISM_URL,
       accounts: [PRIVATE_KEY],
     },
-    // Arbitrum - networks
-    // Arbitrum One mainnet config
     arbitrum: {
       url: ARBITRUM_URL,
       accounts: [PRIVATE_KEY],
@@ -195,4 +160,6 @@ module.exports = {
     },
   }
 };
+
+export default config;
 

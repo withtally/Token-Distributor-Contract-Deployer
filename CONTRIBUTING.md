@@ -49,8 +49,8 @@ git checkout -b my-changes
 ## Add chain
 
 1. Add ENV variables to the `.env.example`
-2. Add it to etherscan section in `hardhat.config.js` if it's not a "valid network" create it as a custom one.
-2. Add it to networks section in `hardhat.config.js`.
+2. Add it to etherscan section in `hardhat.config.ts` if it's not a "valid network" create it as a custom one.
+2. Add it to networks section in `hardhat.config.ts`.
 
 Some things that will increase chance of merge:
 

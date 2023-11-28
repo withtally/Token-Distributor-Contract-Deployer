@@ -1,15 +1,15 @@
-const csv = require('csv-parser');
-const fs = require('fs');
+import csv from 'csv-parser';
+import fs from 'fs';
 
-async function readCSV(filepath) {
+async function readCSV(filepath: string): Promise<any[]> {
 
-  const results = [];
+  const results: any[] = [];
 
   return new Promise((resolve, reject) => {
 
     fs.createReadStream(filepath)
       .pipe(csv({ headers: false })) // Specify headers as false, reading rows
-      .on('data', (data) => {
+      .on('data', (data: any) => {
         // debug
         // console.log(data[0], data[1])
 
@@ -22,12 +22,11 @@ async function readCSV(filepath) {
       .on('end', () => {
         resolve(results);
       });
-
   });
 
 }
 
 
-module.exports = {
+export {
   readCSV 
-}
+};
