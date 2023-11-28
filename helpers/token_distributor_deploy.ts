@@ -1,4 +1,4 @@
-import { ethers } from "hardhat";
+// import type { ethers } from "ethers";
 
 /**
  * TokenDistributor
@@ -20,6 +20,7 @@ const tokenDistributor = async (
     _claimPeriodEnd: number,
     _delegateTo: string,
     signer: any,
+    ethers: any,
     gas: string = "30000000"
 ) => {
     // We get the contract to deploy

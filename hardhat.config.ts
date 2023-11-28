@@ -4,16 +4,16 @@
 
 //import dotenv config
 import "dotenv/config";
-
-
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
 // import type { HardhatUserConfig } from "hardhat/config";
 // import type { NetworkUserConfig } from "hardhat/types";
 
 // requiring tasks.
+
 import "./tasks/deploy_token_distributor";
 // import "./tasks/merkle_tree_generation";
+
 /* ========== DATA FROM .env ===========*/
 // Private key
 // Private key

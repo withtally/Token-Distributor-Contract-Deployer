@@ -1,14 +1,17 @@
 import { MerkleTree } from "merkletreejs";
-import  keccak256 from "keccak256";
-import readCSV  from "../helpers/merkle_tree";
+import keccak256 from "keccak256";
+import readCSV from "../helpers/merkle_tree";
 import fs from "fs";
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { task } from "hardhat/config";
-
+import type { TaskArguments } from "hardhat/types";
 
 task("tree", "Generates merkle proofs from CSV")
   .addParam("csv", "Path to CSV file")
-  .setAction(async (taskArgs: { csv: string },hre: HardhatRuntimeEnvironment) => {
+  .setAction(async function (
+    taskArgs: TaskArguments,
+    hre: HardhatRuntimeEnvironment
+  ) {
     console.log("\nMerkle Tree");
 
     const blocks = await readCSV(taskArgs.csv);
