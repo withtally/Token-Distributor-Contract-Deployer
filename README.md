@@ -10,6 +10,8 @@ This repo provides tasks and scripts to easily deploy and test a Token Distribut
 
 The Token Distributor facilitates distributing ERC20 tokens via Merkle proofs during a specified claim period. Users can define custom allocation logic and generate proof data.
 
+`pnpm install`
+
 **Features:**
 
 ✅ Simple deployment script for the Token Distributor  

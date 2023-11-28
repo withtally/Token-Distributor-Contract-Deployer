@@ -51,7 +51,8 @@ task("tokenDistributor", "Deploys a token distributor.")
         _claimPeriodStart,
         _claimPeriodEnd,
         _delegateTo,
-        signer
+        signer,
+        ethers
       );
 
       const tdBlock = await ethers.provider.getBlock("latest");
