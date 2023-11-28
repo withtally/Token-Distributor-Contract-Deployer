@@ -1,45 +1,45 @@
 
 // require("@nomiclabs/hardhat-waffle");
 // require("@nomiclabs/hardhat-etherscan");
-// require("dotenv").config();
 
-// requiring tasks.
-import "tasks/deploy_token_distributor.ts";
-import "tasks/merkle_tree_generation.ts";
+//import dotenv config
+import "dotenv/config";
 
-import "@nomiclabs/hardhat-etherscan";
+
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
-import { vars } from "hardhat/config";
 // import type { HardhatUserConfig } from "hardhat/config";
 // import type { NetworkUserConfig } from "hardhat/types";
 
+// requiring tasks.
+import "./tasks/deploy_token_distributor";
+// import "./tasks/merkle_tree_generation";
 /* ========== DATA FROM .env ===========*/
 // Private key
-const PRIVATE_KEY: string = vars.get("PRIVATE_KEY") || '';
+// Private key
+const PRIVATE_KEY = process.env.PRIVATE_KEY
 
 // Ethereum network nodes
-const ETHEREUM_URL: string = vars.get("ETHEREUM_URL") || '';
-const SEPOLIA_URL: string = vars.get("SEPOLIA_URL") || '';
+const ETHEREUM_URL = process.env.ETHEREUM_URL
+const SEPOLIA_URL = process.env.SEPOLIA_URL
 
 // Polygon network nodes
-const POLYGON_URL: string = vars.get("POLYGON_URL") || '';
-const MUMBAI_URL: string = vars.get("MUMBAI_URL") || '';
+const POLYGON_URL = process.env.POLYGON_URL
+const MUMBAI_URL = process.env.MUMBAI_URL
 
 // Optimism network nodes
-const OPTIMISM_URL: string = vars.get("OPTIMISM_URL") || '';
+const OPTIMISM_URL = process.env.OPTIMISM_URL
 
 // Arbitrum network nodes
-const ARBITRUM_URL: string = vars.get("ARBITRUM_URL") || '';
-const ARBITRUM_NOVA_URL: string = vars.get("ARBITRUM_NOVA_URL") || '';
-const ARBITRUM_SEPOLIA_URL: string = vars.get("ARBITRUM_SEPOLIA_URL") || '';
+const ARBITRUM_URL = process.env.ARBITRUM_URL
+const ARBITRUM_NOVA_URL = process.env.ARBITRUM_NOVA_URL
+const ARBITRUM_SEPOLIA_URL = process.env.ARBITRUM_SEPOLIA_URL
 
 // Etherscan key
-const ETHERSCAN_KEY: string = vars.get("ETHERSCAN_API_KEY") || '';
-const POLYGONSCAN_KEY: string = vars.get("POLYGONSCAN_KEY") || '';
-const OPT_ETHERSCAN_KEY: string = vars.get("OPT_ETHERSCAN_KEY") || '';
-const ARBISCAN_KEY: string = vars.get("ARBISCAN_KEY") || '';
-
+const ETHERSCAN_KEY = process.env.ETHERSCAN_API_KEY
+const POLYGONSCAN_KEY = process.env.POLYGONSCAN_KEY
+const OPT_ETHERSCAN_KEY = process.env.OPT_ETHERSCAN_KEY
+const ARBISCAN_KEY = process.env.ARBISCAN_KEY
 const config: any = {
   solidity: {
     compilers: [
