@@ -22,12 +22,11 @@ async function readCSV(filepath: string): Promise<any[]> {
       .on('end', () => {
         resolve(results);
       });
-
   });
 
 }
 
 
-export default {
+export {
   readCSV 
 };
