@@ -12,6 +12,10 @@ The Token Distributor facilitates distributing ERC20 tokens via Merkle proofs du
 
 `pnpm install`
 
+`pnpm clean`
+
+`npx hardhat compile`
+
 **Features:**
 
 ✅ Simple deployment script for the Token Distributor  
