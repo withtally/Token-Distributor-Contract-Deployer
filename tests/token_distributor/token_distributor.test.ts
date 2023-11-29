@@ -5,13 +5,6 @@ describe("TokenDistributor", function () {
   let tokenDistributor;
   let token;
 
-  // _root: string,
-  // _token: string,
-  // _totalClaimable: string,
-  // _claimPeriodStart: number,
-  // _claimPeriodEnd: number,
-  // example_output_13700000000000000000000_0xfa2d88c3367862017f5e74924545e92cb45db4956e35117f1b4bb2a31d35e3fa.json
-  // _delegateTo: string,
   const root = "0xfa2d88c3367862017f5e74924545e92cb45db4956e35117f1b4bb2a31d35e3fa";
   const totalClaimable = "13700000000000000000000";
   const claimPeriodStart = Math.floor(Date.now() / 1000); // now
