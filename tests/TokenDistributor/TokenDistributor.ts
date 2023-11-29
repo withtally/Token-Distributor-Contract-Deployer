@@ -13,16 +13,6 @@ import {
 } from "./TokenDistributor.fixture";
 import * as TDParameters from "./TokenDistributor.param";
 
-describe("Unit tests", function () {
-  before(async function () {
-    this.signers = {} as Signers;
-
-    const signers = await ethers.getSigners();
-    this.signers.admin = signers[0];
-
-    this.loadFixture = loadFixture;
-  });
-
   describe("TokenDistributor", async function () {
     before(async function () {
       this.signers = {} as Signers;
@@ -49,9 +39,12 @@ describe("Unit tests", function () {
         await token.getAddress()
       );
       this.tokenDistributor = tokenDistributor;
+
+      const transaction = await token.transfer(await this.tokenDistributor.getAddress(), this.totalClaimable);
+      const receipt = await transaction.wait();
+      expect(receipt?.status).to.equal(1);
     }); 
 
     shouldBehaveLikeTD();
 
   });
-});

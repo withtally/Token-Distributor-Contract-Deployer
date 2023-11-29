@@ -10,8 +10,11 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+
 contract MyERC20 is ERC20, ERC20Permit, ERC20Votes {
-    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken") {}
+    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken") {
+        _mint(msg.sender, 13800000000000000000000 * 10 ** decimals());
+    }
 
     // The following functions are overrides required by Solidity.
 
