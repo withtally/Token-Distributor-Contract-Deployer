@@ -63,7 +63,7 @@ task("tokenDistributor", "Deploys a token distributor.")
         TokenDistributor.address,
         "\x1B[37m"
       );
-      console.log(`Creation block number:`, tdBlock.number);
+      console.log(`Creation block number:`, tdBlock?.number);
 
       // verify cli
       const verify_str =
@@ -80,7 +80,7 @@ task("tokenDistributor", "Deploys a token distributor.")
         `${new Date()}\nToken contract deployed at: ${
           TokenDistributor.address
         }` +
-          ` - ${network.name} - block number: ${tdBlock.number}\n${verify_str}\n\n`
+          ` - ${network.name} - block number: ${tdBlock?.number}\n${verify_str}\n\n`
       );
 
       fs.appendFileSync(

@@ -9,5 +9,5 @@ pragma solidity 0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MyERC20 is ERC20 {
-    constructor() ERC20("MyToken", "MTK", 18) {}
+    constructor() ERC20("MyToken", "MTK") {}
 }

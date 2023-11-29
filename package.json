@@ -5,7 +5,11 @@
   "scripts": {
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json && pnpm typechain",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
-    "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
+    "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain",
+    "postcompile": "pnpm typechain",
+    "prettier:check": "prettier --check \"**/*.{js,json,md,sol,ts,yml}\"",
+    "prettier:write": "prettier --write \"**/*.{js,json,md,sol,ts,yml}\"",
+    "test": "hardhat test"
   },
   "files": [
     "contracts"
@@ -57,6 +61,7 @@
     "glob": "7.2.0",
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.3.11",
+    "hardhat": "^2.19.0",
     "typescript": "^5.3.2",
     "yargs": "^17.5.1",
     "solidity-coverage": "^0.8.5",
