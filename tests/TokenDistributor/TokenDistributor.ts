@@ -42,7 +42,9 @@ describe("Unit tests", function () {
       const { token } = await this.loadFixture(deployTokenFixture);
       this.token = token;
       
-      const { tokenDistributor } = await this.loadFixture(deployTokenDistributorFixture);
+      // Could not use this.loadFixture(deployTokenDistributorFixture) here
+      // const { tokenDistributor } = await this.loadFixture(deployTokenDistributorFixture)
+      const { tokenDistributor } = await deployTokenDistributorFixture(await token.getAddress());
       this.tokenDistributor = tokenDistributor;
     });
   

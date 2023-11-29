@@ -13,6 +13,7 @@ import "hardhat-deploy";
 
 import "./tasks/deploy_token_distributor";
 import "./tasks/merkle_tree_generation";
+import "./tasks/deploy_token";
 
 /* ========== DATA FROM .env ===========*/
 // Private key
