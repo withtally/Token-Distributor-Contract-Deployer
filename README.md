@@ -14,6 +14,8 @@ The Token Distributor facilitates distributing ERC20 tokens via Merkle proofs du
 
 `pnpm clean`
 
+`pnpm test`
+
 `npx hardhat compile`
 
 **Features:**
@@ -36,36 +38,6 @@ For the hardhat tasks in this repo to work you have to copy .env.example and cre
 
 Fill the .env with your nodes and apikeys ( you don't need to fill them all just with the network and explorer you pretend to use ).
 
-### Deploying 
-
-Deploy a new TokenDistributor contract:
-
-```bash
-npx hardhat tokenDistributor \
-  --network hardhat \
-  --root 0xROOT_OF_MERKLE_TREE \ 
-  --token 0xDELEGATE_ADDRESS
-  --total 1000000 \
-  --start 1000 \ 
-  --end 2000 \
-  --delegate 0xDELEGATE_ADDRESS 
-```
-
-- `total`, `start`, `end` are integer timestamps
-- `start` and `end` represent distribution time period   
-- `delegate` is the address to delegate votes to (optional)
-
-#### Validating contract
-
-After running the task to deploy the contract it will print in your terminal a command line in which you can copy and paste in terminal if you provide your etherscan API KEY in .env file you will be able to validate the contracts.
-
-```bash
-    # it will also create a file contracts.out where you will have information about your contract
-    # and a spare npx hardhat verify command that will help you verify your contract if you forgot previously.
-    Thu Nov 23 2023 17:52:12 GMT-0300 (Brasilia Standard Time)
-    Token contract deployed at: 0x5FbDB2315678afecb367f032d93F642f64180aa3 - hardhat - block number: 1
-    npx hardhat verify --network hardhat 0x5FbDB2315678afecb367f032d93F642f64180aa3 "0x5491ccc79ff3c51dc66717d3dfc3affe977e218763db87d261adc29580fdfbf8" "0x22d953bc460246199a02A4c6C2dAA929335645d0" 13700000000000000000000 1700782677 1706023862 0xf8533db72dcba94bf14a3C147A550Ae99d5F5daE
-```
 
 ### Generating Merkle Tree
 
@@ -76,20 +48,22 @@ To generate the merkle tree we will need a csv with the following format:
 0x64ff820bbD2947B2f2D4355D4852F17eb0156D9B,12000
 ```
 
-- addresses to the left, quantity to the right
-- you have to consider in quantity the decimals of your contract
-- we read it row by row
+- accounts addresses to the left, and token quantities to the right
+- you have to consider that the quantity must have the decimals in accord to your token contract
+- our script reads it row by row
 - so if you have 18 decimals it should be something like:
 
 ```csv
-0x2a9e4c022d26d3277fdb60f36779142e1d53e03d,100000000000000000000
-0x34f5a5e655a1accbda3c584f83cdc03d97b19983,100000000000000000000
-0x42022c4c5b185cc871c898e729d765e26754bf03,100000000000000000000
-0x47af38230614fca9127bf6e95a3e602075f532d2,100000000000000000000
-0x54691741f6451f4eae797bd365a17b45ece418f3,100000000000000000000
-0xa5a3ee1f3e04bf47d246bd778127a557ed13d87d,100000000000000000000
-0xb546fb9f4db1cfff7cde73bc97ad426a4ff94fd4,100000000000000000000
+  0x2a9e4c022d26d3277fdb60f36779142e1d53e03d,100000000000000000000
+  0x34f5a5e655a1accbda3c584f83cdc03d97b19983,100000000000000000000
+  0x42022c4c5b185cc871c898e729d765e26754bf03,100000000000000000000
+  0x47af38230614fca9127bf6e95a3e602075f532d2,100000000000000000000
+  0x54691741f6451f4eae797bd365a17b45ece418f3,100000000000000000000
+  0xa5a3ee1f3e04bf47d246bd778127a557ed13d87d,100000000000000000000
+  0xb546fb9f4db1cfff7cde73bc97ad426a4ff94fd4,100000000000000000000
 ```
+
+After you already have the .csv file as stated above, you will need to run it this way:
 
 ```bash
 npx hardhat tree 
@@ -102,8 +76,10 @@ Total amount: BigNumber { value: "22000" }
 Wrote data to output_22000_0x043cda8ef0ba380f54f4123c83d044dd7cdcd4a8f6f7fdb6af940a6805c4ba84.json
 ```
 
-We process the output file in the BE.
+We at tally will process the output file in the BE, for our [DAO Launcher](https://docs.tally.xyz/premium-features/dao-launcher)
 
+
+#### Merkle Output
 Example how it looks like:
 
 ```json
@@ -124,13 +100,56 @@ Example how it looks like:
 }
 ```
 
-<!-- ### Testing
+- you can also check an example at files folder.
 
-Run tests:
+### Deploying 
+
+⚠️ the token contract must have been deployed previously.
+
+Deploy a new TokenDistributor contract:
+
+```bash
+npx hardhat tokenDistributor \
+  --network hardhat \
+  --root 0xROOT_OF_MERKLE_TREE \ 
+  --token 0xDELEGATE_ADDRESS
+  --total 1000000 \
+  --start 1000 \ 
+  --end 2000 \
+  --delegate 0xDELEGATE_ADDRESS 
+```
+
+- `total`, `start`, `end` are integer timestamps
+- `start` and `end` represent distribution time period   
+- `delegate` is the address to delegate votes to (optional)
+- `token` is the address of a contract which implements ERC20,ERC20Votes.
+- if you used our merkle tree generator you will find `total` and `root` in the file name. 
+
+#### Validating contract
+
+After running the task to deploy the contract it will print in your terminal a command line in which you can copy and paste in terminal if you provide your etherscan API KEY in .env file you will be able to validate the contracts.
+
+```bash
+    # it will also create a file contracts.out where you will have information about your contract
+    # and a spare npx hardhat verify command that will help you verify your contract if you forgot previously.
+    Thu Nov 23 2023 17:52:12 GMT-0300 (Brasilia Standard Time)
+    Token contract deployed at: 0x5FbDB2315678afecb367f032d93F642f64180aa3 - hardhat - block number: 1
+    npx hardhat verify --network hardhat 0x5FbDB2315678afecb367f032d93F642f64180aa3 "0x5491ccc79ff3c51dc66717d3dfc3affe977e218763db87d261adc29580fdfbf8" "0x22d953bc460246199a02A4c6C2dAA929335645d0" 13700000000000000000000 1700782677 1706023862 0xf8533db72dcba94bf14a3C147A550Ae99d5F5daE
+```
+### Testing
+
+To run the tests you can:
 
 ```
 npx hardhat test
-``` -->
+```
+
+or 
+
+```
+pnpm test
+```
+
 -------
 
 ## 🚨 Disclaimer
