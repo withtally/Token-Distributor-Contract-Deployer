@@ -123,7 +123,16 @@ const config: any = {
   },
   networks: {
     hardhat: {
-      accounts: ["0x8166f546bab6da521a8369cab06c5d2b9e46670292d85c875ee9ec20e84ffb61"],
+      accounts: [
+        {
+          privateKey: "0x8166f546bab6da521a8369cab06c5d2b9e46670292d85c875ee9ec20e84ffb61", // Replace with your private key
+          balance: "10000000000000000000000", // Replace with the desired balance
+        },
+        {
+          privateKey: "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", // Replace with your private key
+          balance: "10000000000000000000000", // Replace with the desired balance
+        },
+      ],
       // chainId: chainIds.hardhat,
     },
     localhost: {

@@ -20,19 +20,10 @@ export function shouldBehaveLikeTD(): void {
   });
 
   it("merkle tree verify works", async function () {
-    // Account add to merkle tree
-    // Account #15: 0xcd3B766CCDd6AE721141F452C550Ca635964ce71 (10000 ETH)
-    // Private Key: 0x8166f546bab6da521a8369cab06c5d2b9e46670292d85c875ee9ec20e84ffb61
-    // Now you can use the `signer` otherAccount to interact with the Ethereum network
-    const privKey = "0x8166f546bab6da521a8369cab06c5d2b9e46670292d85c875ee9ec20e84ffb61";
-    const pubKey = "0xcd3B766CCDd6AE721141F452C550Ca635964ce71";
-    // const wallet = new ethers.Wallet(privKey);
-    const signer = await ethers.getSigner(pubKey);
 
-    // const provider = new ethers.providers.JsonRpcProvider(); // Replace with your provider
-    const otherAccount = wallet.connect(null); // Replace `provider` with your Ethereum provider
+    const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
-
+    
     /**
       @notice Claims tokens  
       @param _proof Merkle proof data
@@ -43,14 +34,16 @@ export function shouldBehaveLikeTD(): void {
     // }
     //  emit Claimed({_user: msg.sender, _amount: _amount});
     await expect(
-      this.tokenDistributor
-      .connect(otherAccount)
-      .claim(json[pubKey].proofs, json[pubKey].amount)
+      this.tokenDistributor.connect(this.signers.admin)
+      .claim(
+        json[pubKey].proofs, 
+        json[pubKey].amount
+      )
     ).to.emit(this.tokenDistributor, "Claimed")
     .withArgs(
-      otherAccount.address,
-      // json[pubKey].amount
-      0
+      pubKey,
+      json[pubKey].amount
+      // 0
     );
   });
 }
