@@ -1,6 +1,6 @@
 import type { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/dist/src/signer-with-address";
 
-import type { TokenDistributor } from "../typechain-types/contracts/TokenDistributor";
+import type { TokenDistributor } from "../types/contracts/TokenDistributor";
 
 type Fixture<T> = () => Promise<T>;
 

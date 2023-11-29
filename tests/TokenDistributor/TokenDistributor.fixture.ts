@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 
-import type { MyERC20 } from "../../typechain-types/contracts/MyERC20";
-import type { TokenDistributor } from "../../typechain-types/contracts/TokenDistributor";
+import type { MyERC20 } from "../../types/contracts/MyERC20";
+import type { TokenDistributor } from "../../types/contracts/TokenDistributor";
 
 export async function deployTokenFixture(): Promise<{ token: MyERC20 }> {
   const signers = await ethers.getSigners();

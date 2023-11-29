@@ -4,9 +4,8 @@ import { expect } from "chai";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 
 import type { Signers } from "../types";
-import { shouldBehaveLikeTD } from "./token_distributor.behavior";
-import { deployTokenDistributorFixture } from "./token_distributor.fixture";
-import { deployTokenFixture } from "./token_distributor.fixture";
+import { shouldBehaveLikeTD } from "./TokenDistributor.behavior";
+import { deployTokenDistributorFixture, deployTokenFixture } from "./TokenDistributor.fixture";
 
 describe("Unit tests", function () {
   before(async function () {

@@ -46,10 +46,15 @@ const config: any = {
       {
         version: "0.8.20",
         settings: {
+          metadata: {
+            // Not including the metadata hash
+            bytecodeHash: "none",
+          },
+          // Disable the optimizer when debugging
           optimizer: {
             enabled: true,
-            runs: 200
-          }
+            runs: 800,
+          },
         }
       },
     ],
@@ -158,7 +163,17 @@ const config: any = {
       url: ARBITRUM_SEPOLIA_URL,
       accounts: [PRIVATE_KEY],
     },
-  }
+  },
+  paths: {
+    artifacts: "./artifacts",
+    cache: "./cache",
+    sources: "./contracts",
+    tests: "./test",
+  },
+  typechain: {
+    outDir: "types",
+    target: "ethers-v6",
+  },
 };
 
 export default config;
