@@ -27,7 +27,7 @@ export async function deployTokenDistributorFixture(token: string): Promise<{
     TDParameters.totalClaimable,
     TDParameters.claimPeriodStart,
     TDParameters.claimPeriodEnd,
-    TDParameters.delegateTo
+    admin.address,
   );
   await tokenDistributor.waitForDeployment();
 

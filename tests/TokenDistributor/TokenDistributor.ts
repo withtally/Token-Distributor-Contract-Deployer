@@ -32,7 +32,7 @@ describe("Unit tests", function () {
       this.totalClaimable = TDParameters.totalClaimable;
       this.claimPeriodStart = TDParameters.claimPeriodStart;
       this.claimPeriodEnd = TDParameters.claimPeriodEnd;
-      this.delegateTo = TDParameters.delegateTo;
+      // this.delegateTo = TDParameters.delegateTo;
   
       this.loadFixture = loadFixture;
     });
