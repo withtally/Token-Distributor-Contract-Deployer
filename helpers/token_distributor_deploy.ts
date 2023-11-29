@@ -38,7 +38,7 @@ const tokenDistributor = async (
     );
 
     // await deploy and get block number
-    await tokenDistributor.deployed();
+    await tokenDistributor.waitForDeployment();
     return tokenDistributor;
 };
 
