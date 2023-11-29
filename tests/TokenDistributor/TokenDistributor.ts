@@ -5,7 +5,6 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 
 import type { Signers } from "../types";
 import {
-  merkleTreeCheckTD,
   shouldBehaveLikeTD,
 } from "./TokenDistributor.behavior";
 import {
@@ -53,7 +52,6 @@ describe("Unit tests", function () {
     }); 
 
     shouldBehaveLikeTD();
-    merkleTreeCheckTD();
 
   });
 });

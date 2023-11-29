@@ -19,7 +19,7 @@ export function shouldBehaveLikeTD(): void {
     );
   });
 
-  it("merkle tree verify works", async function () {
+  it("token distributor claim works", async function () {
 
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
