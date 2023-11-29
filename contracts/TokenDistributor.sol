@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.20;
+import "hardhat/console.sol";
 
 import {ERC20Votes} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
 import {MerkleProof} from "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
@@ -230,7 +231,9 @@ contract TokenDistributor is Authorizable, ITokenDistributor {
     address _user,
     uint256 _amount
   ) internal view returns (bool _valid) {
-    
+    // log
+    console.log("Merkle Proof Check - User: %s, Amount: %s", _user, _amount);
+
     _valid = MerkleProof.verify(_proof, 
                                 root, 
                                 keccak256(abi.encodePacked(_user, _amount)));
