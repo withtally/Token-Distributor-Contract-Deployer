@@ -42,7 +42,7 @@ export function shouldBehaveLikeTD(): void {
 
   it("claimAndDelegate should work", async function () {
     // const erc20 = getErc20(tokenAddress, signer)
-    const erc20 = await this.token.getAddress();
+    const erc20 = await this.token;
     const json = TDParameters.json;
 
     const fromAddress = await this.signers.admin.getAddress();
@@ -54,13 +54,14 @@ export function shouldBehaveLikeTD(): void {
     const chainId = hre.network.config.chainId;
 
     const signature = await signDelegateTransaction({
-      contractAddress: erc20.address,
+      contractAddress: await erc20.getAddress(),
       contractName: await erc20.name(),
       delegateeAddress: fromAddress,
       chainId: chainId ? chainId : 31337,
       nonce,
       expiry,
       useVersion: true,
+      signer: this.signers.admin,
     });
 
     const { v, r, s } = ethers.Signature.from(signature);

@@ -1,5 +1,6 @@
-import { useSignTypedData } from "wagmi";
+// import { walletClient } from 'wagmi/config'
 
+import { Signer } from "ethers";
 import {
   getSignDomain as getDelegateSignDomain,
   getSignTypes as getDelegateSignTypes,
@@ -14,6 +15,7 @@ export const signDelegateTransaction = async ({
   nonce,
   expiry,
   useVersion = false,
+  signer,
 }: {
   contractAddress: string;
   contractName: string;
@@ -22,28 +24,23 @@ export const signDelegateTransaction = async ({
   nonce: BigInt;
   expiry: number;
   useVersion: boolean;
+  signer: Signer,
 }) => {
-  const { signTypedDataAsync } = useSignTypedData();
 
   try {
     const domain = getDelegateSignDomain({
       contractName,
       chainId,
       contractAddress,
-      useVersion,
     });
-    const types = getDelegateSignTypes({ useVersion });
+    const types = getDelegateSignTypes();
     const value = getDelegateSignValue({
       delegatee: delegateeAddress,
       nonce: Number(nonce),
       expiry: BigInt(expiry),
     });
 
-    const signature = await signTypedDataAsync({
-      domain,
-      types,
-      value,
-    });
+    const signature = await signer.signTypedData(domain, types, value);
 
     return signature ?? undefined;
   } catch (error) {
