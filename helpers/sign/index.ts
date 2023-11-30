@@ -14,7 +14,6 @@ export const signDelegateTransaction = async ({
   chainId,
   nonce,
   expiry,
-  useVersion = false,
   signer,
 }: {
   contractAddress: string;
@@ -23,7 +22,6 @@ export const signDelegateTransaction = async ({
   chainId: number;
   nonce: BigInt;
   expiry: number;
-  useVersion: boolean;
   signer: Signer,
 }) => {
 

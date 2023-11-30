@@ -60,7 +60,6 @@ export function shouldBehaveLikeTD(): void {
       chainId: chainId ? chainId : 31337,
       nonce,
       expiry,
-      useVersion: true,
       signer: this.signers.admin,
     });
 

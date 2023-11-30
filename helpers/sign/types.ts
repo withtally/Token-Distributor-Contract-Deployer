@@ -21,14 +21,14 @@ export const getSignDomain = ({
   };
   
 export const getSignTypes = (): Record<string, Array<TypedDataField>> => {
-const types = {
-    EIP712Domain: [
+const types: Record<string, Array<TypedDataField>> = {
+    'EIP712Domain': [
     { name: "name", type: "string" },
     { name: "version", type: "string" },
     { name: "chainId", type: "uint256" },
     { name: "verifyingContract", type: "address" },
     ],
-    Delegation: [
+    'Delegation': [
     { name: "delegatee", type: "address" },
     { name: "nonce", type: "uint256" },
     { name: "expiry", type: "uint256" },
@@ -46,7 +46,7 @@ export const getSignValue = ({
   delegatee: string
   nonce: number
   expiry: BigInt | string | number
-}) => {
+}) :Record<string, any>=> {
   const value = {
     delegatee,
     nonce,
