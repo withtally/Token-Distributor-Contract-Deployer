@@ -64,7 +64,6 @@ export function shouldBehaveLikeTD(): void {
     });
 
     const { v, r, s } = ethers.Signature.from(signature);
-
     await expect(
       this.tokenDistributor
         .connect(this.signers.admin)

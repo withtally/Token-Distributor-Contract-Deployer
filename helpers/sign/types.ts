@@ -22,12 +22,12 @@ export const getSignDomain = ({
   
 export const getSignTypes = (): Record<string, Array<TypedDataField>> => {
 const types: Record<string, Array<TypedDataField>> = {
-    'EIP712Domain': [
-    { name: "name", type: "string" },
-    { name: "version", type: "string" },
-    { name: "chainId", type: "uint256" },
-    { name: "verifyingContract", type: "address" },
-    ],
+    // 'EIP712Domain': [
+    // { name: "name", type: "string" },
+    // { name: "version", type: "string" },
+    // { name: "chainId", type: "uint256" },
+    // { name: "verifyingContract", type: "address" },
+    // ],
     'Delegation': [
     { name: "delegatee", type: "address" },
     { name: "nonce", type: "uint256" },

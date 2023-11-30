@@ -1,5 +1,5 @@
 
-import { ethers } from "hardhat";
+// import { ethers } from "hardhat";
 
 const root = "0xb2870dc35bde1db219264a32129df3e73fb74b9f7ede7a7cf8fbf190bb5eb914";
 const totalClaimable = "13800000000000000000000";
