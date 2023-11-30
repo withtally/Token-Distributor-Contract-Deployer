@@ -37,6 +37,7 @@ export function shouldVerifyCorrectly(): void {
     const value = [this.signers.admin.address,"1000000000000000000"]
     const types = ["address", "uint256"]
 
+    // testing to see the correct way to keccak and pack the data to apply to our merkle tree generator.
     const solidityLeaf = ethers.solidityPackedKeccak256(types, value)
 
     expect(leaf).to.equal(solidityLeaf)
