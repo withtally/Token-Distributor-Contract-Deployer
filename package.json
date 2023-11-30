@@ -76,6 +76,7 @@
     "yargs": "^17.5.1"
   },
   "dependencies": {
-    "@openzeppelin/merkle-tree": "^1.0.5"
+    "@openzeppelin/merkle-tree": "^1.0.5",
+    "wagmi": "^1.4.7"
   }
 }

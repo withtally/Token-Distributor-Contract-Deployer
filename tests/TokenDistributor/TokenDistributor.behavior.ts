@@ -1,13 +1,17 @@
 import { expect } from "chai";
 import { ethers } from "ethers";
+import hre from "hardhat";
+
 // import json from files
 import * as TDParameters from "./TokenDistributor.param";
+import { signDelegateTransaction } from "../../helpers/sign";
 
 export function shouldBehaveLikeTD(): void {
-  
   it("should initialize the contract correctly", async function () {
     expect(await this.tokenDistributor.root()).to.equal(this.root);
-    expect(await this.tokenDistributor.token()).to.equal(await this.token.getAddress());
+    expect(await this.tokenDistributor.token()).to.equal(
+      await this.token.getAddress()
+    );
     expect(await this.tokenDistributor.totalClaimable()).to.equal(
       this.totalClaimable
     );
@@ -20,30 +24,65 @@ export function shouldBehaveLikeTD(): void {
   });
 
   it("token distributor claim works", async function () {
-
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
-    
-    /**
-      @notice Claims tokens  
-      @param _proof Merkle proof data
-      @param _amount Amount to claim
-    */
-    // function claim(bytes32[] calldata _proof, uint256 _amount) external {
-    // 	_claim(_proof, _amount);
-    // }
-    //  emit Claimed({_user: msg.sender, _amount: _amount});
+
     await expect(
-      this.tokenDistributor.connect(this.signers.admin)
-      .claim(
-        json[pubKey].proofs, 
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim(json[pubKey].proofs, json[pubKey].amount)
+    )
+      .to.emit(this.tokenDistributor, "Claimed")
+      .withArgs(
+        pubKey,
         json[pubKey].amount
-      )
-    ).to.emit(this.tokenDistributor, "Claimed")
-    .withArgs(
-      pubKey,
-      json[pubKey].amount
-      // 0
-    );
+        // 0
+      );
+  });
+
+  it("claimAndDelegate should work", async function () {
+    // const erc20 = getErc20(tokenAddress, signer)
+    const erc20 = await this.token.getAddress();
+    const json = TDParameters.json;
+
+    const fromAddress = await this.signers.admin.getAddress();
+    const nonce = await erc20.nonces(fromAddress);
+
+    const expiry = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hours
+
+    // get chainID on hardhat test
+    const chainId = hre.network.config.chainId;
+
+    const signature = await signDelegateTransaction({
+      contractAddress: erc20.address,
+      contractName: await erc20.name(),
+      delegateeAddress: fromAddress,
+      chainId: chainId ? chainId : 31337,
+      nonce,
+      expiry,
+      useVersion: true,
+    });
+
+    const { v, r, s } = ethers.Signature.from(signature);
+
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claimAndDelegate(
+          json[fromAddress].proofs,
+          json[fromAddress].amount,
+          fromAddress,
+          expiry,
+          v,
+          r,
+          s
+        )
+    )
+      .to.emit(this.tokenDistributor, "Claimed")
+      .withArgs(
+        fromAddress,
+        json[fromAddress].amount
+        // 0
+      );
   });
 }

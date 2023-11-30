@@ -230,7 +230,8 @@ contract TokenDistributor is Authorizable, ITokenDistributor {
     address _user,
     uint256 _amount
   ) internal view returns (bool _valid) {
-    bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(_user, _amount))));
+    // bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(_user, _amount))));
+    bytes32 leaf = keccak256(abi.encodePacked(_user, _amount));
     _valid = MerkleProof.verify(_proof, root, leaf);
   }
 }
