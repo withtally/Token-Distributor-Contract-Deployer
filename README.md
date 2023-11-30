@@ -102,6 +102,21 @@ Example how it looks like:
 
 - you can also check an example at files folder.
 
+#### Changing the merkle tree script
+
+Right now the OZ Tree generator does not match what we need on tally so I changed it to a modified version of the generator, to use it you need to link it locally.
+
+```bash
+git clone https://github.com/withtally/merkle-tree
+cd merkle-tree
+npm link
+cd -
+pnpm link ./merkle-tree # or the path where you put it
+pnpm test # should work.
+```
+
+This will be changed to a published package as soon as we deploy it.
+
 ### Deploying 
 
 ⚠️ the token contract must have been deployed previously.

@@ -3,10 +3,9 @@ import { ethers } from "ethers";
 // import json from files
 import * as TDParameters from "../TokenDistributor/TokenDistributor.param";
 
-
 export function shouldVerifyCorrectly(): void {
 
-it("merkle tree verify", async function () {
+  it("merkle tree verify", async function () {
 
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
@@ -30,4 +29,16 @@ it("merkle tree verify", async function () {
     ).to.not.reverted;
   });
 
+  it("generate leaf",async function(){
+
+    const leaf = await this.verifier.generateLeaf(this.signers.admin.address,"1000000000000000000")
+    const defaultAbiCoder = ethers.AbiCoder.defaultAbiCoder()
+    // values, ["address", "uint256"]
+    const value = [this.signers.admin.address,"1000000000000000000"]
+    const types = ["address", "uint256"]
+
+    const solidityLeaf = ethers.solidityPackedKeccak256(types, value)
+
+    expect(leaf).to.equal(solidityLeaf)
+  })
 }
