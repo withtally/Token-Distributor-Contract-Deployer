@@ -12,10 +12,10 @@ task(
   "Claims and delegates tokens from a token distributor."
 )
   .addParam(
-    "token_distributor_address",
+    "distributor",
     "The address of the token distributor."
   )
-  .addParam("json_path", "The path to the JSON file.")
+  .addParam("json", "The path to the JSON file.")
   .addOptionalParam(
     "delegate",
     "ethereum address who will be delegated to. e.g: 0x70997970C51812dc3A010C7d01b50e0d17dc79C8"

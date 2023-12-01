@@ -24,7 +24,7 @@ The Token Distributor facilitates distributing ERC20 tokens via Merkle proofs du
 
 ✅ Generate Merkle tree proof data from CSV  
 
-<!-- ✅ Claim tokens via contract integration   -->
+✅ Claim tokens via contract integration  
 
 ## Using it with Tally
 
@@ -116,26 +116,19 @@ Example how it looks like:
 #### We changed the merkle tree script
 
 Right now the OZ Tree generator does not match what we need on tally due to the way we are leafhashing.
-So we changed it to a modified version of the generator, to use it you need to link it locally.
+So we changed it to a modified version of the generator.
 
-```bash
-git clone https://github.com/withtally/merkle-tree
-cd merkle-tree
-npm link
-cd -
-pnpm link ./merkle-tree # or the path where you put it
-pnpm test # should work.
-```
-
-This will be changed to a published package as soon as we deploy it.
-
+this is the difference between the hashing leaf method in the merkle generation.
 ```solidity
 // bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(alice, 100))));
 bytes32 leaf = keccak256(abi.encodePacked(_user, _amount));
 ```
 
-- in OZ deployer it considers the leaf hash as the commented line in the solidity contract above.
-– But token deployer is using the second line as leaf hashing so thus needed to change the merkle tree leaf hashing function.
+- In OZ deployer it considers the leaf hash as the commented line in the solidity contract above.
+- But token deployer is using the second line as leaf hashing so thus needed to change the merkle tree leaf hashing function.
+- changed from simple js keccak to ether solidity keccak enpacked.
+
+----------
 
 ### Deploying 
 
@@ -173,6 +166,30 @@ An example of what is outputted:
     Token contract deployed at: 0x5FbDB2315678afecb367f032d93F642f64180aa3 - hardhat - block number: 1
     npx hardhat verify --network hardhat 0x5FbDB2315678afecb367f032d93F642f64180aa3 "0x5491ccc79ff3c51dc66717d3dfc3affe977e218763db87d261adc29580fdfbf8" "0x22d953bc460246199a02A4c6C2dAA929335645d0" 13700000000000000000000 1700782677 1706023862 0xf8533db72dcba94bf14a3C147A550Ae99d5F5daE
 ```
+-----------
+
+### Claim tokens
+
+After you deploy the token and token distributor you can claim the tokens with a task to test it
+
+```bash
+npx hardhat claim \
+  --distributor 0xADRESS_OF_IT \
+  --json JSON_PATH_MERKLE_TREE
+```
+
+you can also try claim and delegate
+
+```bash
+npx hardhat claim_delegate \
+  --distributor 0xADRESS_OF_IT \
+  --json JSON_PATH_MERKLE_TREE \
+  --delegate 0xADDRESS_OF_DELEGATEE #[OPTIONAL if not used, it will self delegate]
+  
+```
+
+----------
+
 ### Testing
 
 To run the tests you can use:

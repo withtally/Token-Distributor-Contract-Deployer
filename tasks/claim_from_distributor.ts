@@ -4,10 +4,10 @@ import { TokenDistributor, TokenDistributor__factory } from "../types";
 
 task("claim", "Claims tokens from a token distributor.")
   .addParam(
-    "token_distributor_address",
+    "distributor",
     "The address of the token distributor."
   )
-  .addParam("json_path", "The path to the JSON file.")
+  .addParam("json", "The path to the JSON file.")
   .setAction(async (taskArgs: TaskArguments, { ethers }) => {
     console.log("Claiming tokens from the token distributor...");
 
