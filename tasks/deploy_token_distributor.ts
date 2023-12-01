@@ -60,7 +60,7 @@ task("tokenDistributor", "Deploys a token distributor.")
       // DEPLOYMENT LOGS
       console.log(
         `Token Distributor deployed to:\x1B[33m`,
-        TokenDistributor.getAddress(),
+        await TokenDistributor.getAddress(),
         "\x1B[37m"
       );
       console.log(`Creation block number:`, tdBlock?.number);
@@ -69,7 +69,7 @@ task("tokenDistributor", "Deploys a token distributor.")
       const verify_str =
         `npx hardhat verify ` +
         `--network ${network.name} ` +
-        `${TokenDistributor.getAddress()} ` +
+        `${await TokenDistributor.getAddress()} ` +
         `"${_root}" "${_token}" ${_totalClaimable} ${_claimPeriodStart} ${_claimPeriodEnd} ${_delegateTo}`;
 
       console.log("\n" + verify_str);
