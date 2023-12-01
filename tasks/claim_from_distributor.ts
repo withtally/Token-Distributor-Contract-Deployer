@@ -11,28 +11,28 @@ task("claim", "Claims tokens from a token distributor.")
   .setAction(async (taskArgs: TaskArguments, { ethers }) => {
     console.log("Claiming tokens from the token distributor...");
 
-    const { token_distributor_address, json_path } = taskArgs;
+    const { distributor, json } = taskArgs;
 
     // Load the JSON file
-    const json = require(json_path);
+    const jsonC = require(json);
 
     // Get the signer address
     const signers = await ethers.getSigners();
     const signerAddress = await signers[0].getAddress();
 
-    if (!json[signerAddress]) {
+    if (!jsonC[signerAddress]) {
       throw new Error(
         `The signer address ${signerAddress} is not in the JSON file.`
       );
     }
 
     // Find the amount and proof in the JSON using the signer address
-    const amount = json[signerAddress].amount;
-    const proofs = json[signerAddress].ss;
+    const amount = jsonC[signerAddress].amount;
+    const proofs = jsonC[signerAddress].ss;
 
     // Deploy the contract using the token distributor address
     const contract: TokenDistributor = await TokenDistributor__factory.connect(
-      token_distributor_address
+      distributor
     );
 
     // Make a call to the contract to claim tokens

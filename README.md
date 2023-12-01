@@ -33,7 +33,8 @@ npx hardhat compile
 3. Generate the [tree](#generate-the-merkle-tree).
 4. Deploy the token distributor contract using the [deploy task](#deploying).
 5. Validate your contract as explained [here](#validating-contract).
-6. Share the generated .json file from step 3, along with the addresses for the token distributor and your token, to Tally.
+6. Send the correct amount of tokens to the Distributor.
+7. Share the generated .json file from step 3, along with the addresses for the token distributor and your token, to Tally.
 
 ## 💻 Getting Started
 
