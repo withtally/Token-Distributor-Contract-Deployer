@@ -32,7 +32,7 @@ task("claim_delegate", "Claims and delegates tokens from a token distributor.")
     // get delegate address
     const _delegateTo: string = taskArgs.delegate
       ? taskArgs.delegate
-      : signer.address;
+      : signer.getAddress();
 
     const expiry = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hours
 
@@ -44,7 +44,7 @@ task("claim_delegate", "Claims and delegates tokens from a token distributor.")
 
     // Find the amount and proof in the JSON using the signer address
     const amount = jsonC[signerAddress].amount;
-    const proofs = jsonC[signerAddress].proof;
+    const proofs = jsonC[signerAddress].proofs;
 
     // Connect the contract using the token distributor address
     const contract: TokenDistributor = await TokenDistributor__factory.connect(
@@ -52,18 +52,18 @@ task("claim_delegate", "Claims and delegates tokens from a token distributor.")
     );
 
     // generate v,r,s
-    const tokenAddress = await contract.token();
+    const tokenAddress = await contract.connect(signer).token();
     // Connect the contract using the token address
     const erc20 = await MyERC20__factory.connect(tokenAddress);
 
     // nonce from signer
-    const nonce = await erc20.nonces(signerAddress);
+    const nonce = await erc20.connect(signer).nonces(signerAddress);
 
     // get chainID on hardhat
     const chainId = network.config.chainId;
     const signature = await signDelegateTransaction({
       contractAddress: await erc20.getAddress(),
-      contractName: await erc20.name(),
+      contractName: await erc20.connect(signer).name(),
       delegateeAddress: signerAddress,
       chainId: chainId ? chainId : 31337, // fetch from hardhat or use as hardhat local
       nonce,
@@ -74,7 +74,7 @@ task("claim_delegate", "Claims and delegates tokens from a token distributor.")
     const { v, r, s } = ethers.Signature.from(signature);
 
     // Make a call to the contract to claim and delegate tokens
-    const tx = await contract.claimAndDelegate(
+    const tx = await contract.connect(signer).claimAndDelegate(
       proofs,
       amount,
       _delegateTo,

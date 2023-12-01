@@ -191,6 +191,8 @@ or
 pnpm test
 ```
 
+You can also check a test flow with tasks [here](files/example_test.md)
+
 -------
 
 ## 🚨 Disclaimer

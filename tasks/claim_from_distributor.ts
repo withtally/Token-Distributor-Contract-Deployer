@@ -20,6 +20,7 @@ task("claim", "Claims tokens from a token distributor.")
 
     // Get the signer address
     const signers = await ethers.getSigners();
+    const signer = signers[0];
     const signerAddress = await signers[0].getAddress();
 
     if (!jsonC[signerAddress]) {
@@ -30,7 +31,7 @@ task("claim", "Claims tokens from a token distributor.")
 
     // Find the amount and proof in the JSON using the signer address
     const amount = jsonC[signerAddress].amount;
-    const proofs = jsonC[signerAddress].ss;
+    const proofs = jsonC[signerAddress].proofs;
 
     // Deploy the contract using the token distributor address
     const contract: TokenDistributor = await TokenDistributor__factory.connect(
@@ -38,7 +39,7 @@ task("claim", "Claims tokens from a token distributor.")
     );
 
     // Make a call to the contract to claim tokens
-    const tx = await contract.claim( proofs,amount);
+    const tx = await contract.connect(signer).claim(proofs,amount);
 
     // Wait for the transaction to be mined
     const receipt = await tx.wait();
