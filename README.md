@@ -104,7 +104,8 @@ Example how it looks like:
 
 #### Changing the merkle tree script
 
-Right now the OZ Tree generator does not match what we need on tally so I changed it to a modified version of the generator, to use it you need to link it locally.
+Right now the OZ Tree generator does not match what we need on tally due to the way we are leafhashing.
+So we changed it to a modified version of the generator, to use it you need to link it locally.
 
 ```bash
 git clone https://github.com/withtally/merkle-tree
@@ -116,6 +117,14 @@ pnpm test # should work.
 ```
 
 This will be changed to a published package as soon as we deploy it.
+
+```solidity
+// bytes32 leaf = keccak256(bytes.concat(keccak256(abi.encode(alice, 100))));
+bytes32 leaf = keccak256(abi.encodePacked(_user, _amount));
+```
+
+- in OZ deployer it considers the leaf hash as the commented line in the solidity contract above.
+– But token deployer is using the second line as leaf hashing so thus needed to change the merkle tree leaf hashing function.
 
 ### Deploying 
 
