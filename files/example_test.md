@@ -4,15 +4,19 @@ You have to substitute the address of course in accord to the outputs you get.
 
 If you want to use a specific Account, you have to fill it's private key in the localhost `package.json`.
 
-----------
+also run in another terminal:
 
-```bash
+`npx hardhat node`
+
+----------
 # CREATE TOKEN
 
+```bash
 npx hardhat token --network localhost
 ```
 
 -----------
+### Sample output:
 
     Deploying an sample Token contract for local testing
     network:localhost 
@@ -22,10 +26,9 @@ npx hardhat token --network localhost
     Creation block number: 1
 
 -----------
-
-```bash
 # CREATE TOKEN DISTRIBUTOR
 
+```bash
 # Check if the system is macOS
 if [[ $(uname) == "Darwin" ]]; then
     # For macOS, use the -v option with date to add 1 minute and 24 hours
@@ -48,6 +51,7 @@ npx hardhat tokenDistributor --network localhost \
 ```
 
 -----------
+### Sample output:
 
     Deploying a Token Distributor contract
     network:localhost 
@@ -65,9 +69,9 @@ npx hardhat tokenDistributor --network localhost \
     npx hardhat verify --network localhost 0xDAEaB5ef86487b4f777A80dFa9BC0DE6878d7607 "0xae1b08655703dc89f64177d04982f7644b008d9e4dcbf6aa686698d4128c2406" "0x162459Bb429a63D2e31Fe2d1cdb5b058f2D31AdF" 13800000000000000000000 1701462737 1701549077 0xf8533db72dcba94bf14a3C147A550Ae99d5F5daE
 
 -----------
+# TRANSFER TO TOKEN DISTRIBUTOR
 
 ```bash
-# TRANSFER TO TOKEN DISTRIBUTOR
 
 npx hardhat transfer --network localhost \
     --to 0xDAEaB5ef86487b4f777A80dFa9BC0DE6878d7607 \
@@ -76,16 +80,17 @@ npx hardhat transfer --network localhost \
 ```
 
 -------------
+### Sample output:
+
     Transfer tokens...
     network:localhost 
     signer address:0xcd3B766CCDd6AE721141F452C550Ca635964ce71
 
     Tokens transfered successfully!
 -------------
-
-```bash
 # CLAIM
 
+```bash
 npx hardhat claim --network localhost \
     --distributor 0xDAEaB5ef86487b4f777A80dFa9BC0DE6878d7607 \
     --json files/example.json
@@ -98,6 +103,8 @@ npx hardhat claim_delegate --network localhost \
 ```
 
 -------------
+### Sample output:
+
     Claiming tokens from the token distributor...
     network:localhost 
     signer address:0xcd3B766CCDd6AE721141F452C550Ca635964ce71
