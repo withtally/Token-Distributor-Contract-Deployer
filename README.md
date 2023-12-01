@@ -26,7 +26,15 @@ The Token Distributor facilitates distributing ERC20 tokens via Merkle proofs du
 
 <!-- ✅ Claim tokens via contract integration   -->
 
-<!-- ✅ Full testing suite demo   -->
+## Using it with Tally
+
+0. You need to have deployed your token contract already, look at the [docs](https://docs.tally.xyz/user-guides/tally-contract-compatibility/tokens-erc-20-and-nfts).
+1. Create your list as [here](#create-your-list).
+2. Install local lib [instructions](#we-changed-the-merkle-tree-script).
+3. Generate the [tree](#generate-the-merkle-tree).
+4. Deploy the token distributor contract [deploy task](#deploying).
+5. Validate your contract as explained [here](#validating-contract).
+5. Send the .json generated in the item 3 to us and the addresses for the token distributor and your token.
 
 ## 💻 Getting Started
 
@@ -39,8 +47,9 @@ For the hardhat tasks in this repo to work you have to copy .env.example and cre
 Fill the .env with your nodes and apikeys ( you don't need to fill them all just with the network and explorer you pretend to use ).
 
 
-### Generating Merkle Tree
+### Merkle Tree generator
 
+### Create your list
 To generate the merkle tree we will need a csv with the following format:
 
 ```csv
@@ -62,6 +71,8 @@ To generate the merkle tree we will need a csv with the following format:
   0xa5a3ee1f3e04bf47d246bd778127a557ed13d87d,100000000000000000000
   0xb546fb9f4db1cfff7cde73bc97ad426a4ff94fd4,100000000000000000000
 ```
+
+### Generate the Merkle Tree
 
 After you already have the .csv file as stated above, you will need to run it this way:
 
@@ -102,7 +113,7 @@ Example how it looks like:
 
 - you can also check an example at files folder.
 
-#### Changing the merkle tree script
+#### We changed the merkle tree script
 
 Right now the OZ Tree generator does not match what we need on tally due to the way we are leafhashing.
 So we changed it to a modified version of the generator, to use it you need to link it locally.
@@ -153,6 +164,8 @@ npx hardhat tokenDistributor \
 
 After running the task to deploy the contract it will print in your terminal a command line in which you can copy and paste in terminal if you provide your etherscan API KEY in .env file you will be able to validate the contracts.
 
+An example of what is outputted:
+
 ```bash
     # it will also create a file contracts.out where you will have information about your contract
     # and a spare npx hardhat verify command that will help you verify your contract if you forgot previously.
@@ -162,7 +175,7 @@ After running the task to deploy the contract it will print in your terminal a c
 ```
 ### Testing
 
-To run the tests you can:
+To run the tests you can use:
 
 ```
 npx hardhat test
