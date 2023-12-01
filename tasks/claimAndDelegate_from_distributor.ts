@@ -6,6 +6,7 @@ import {
   TokenDistributor__factory,
 } from "../types";
 import { signDelegateTransaction } from "../helpers/sign";
+import fs from "fs";
 
 task("claim_delegate", "Claims and delegates tokens from a token distributor.")
   .addParam("distributor", "The address of the token distributor.")
@@ -20,7 +21,8 @@ task("claim_delegate", "Claims and delegates tokens from a token distributor.")
     const { distributor, json } = taskArgs;
 
     // Load the JSON file
-    const jsonC = require(json);
+    const rawData = fs.readFileSync(json, 'utf-8');
+    const jsonC = JSON.parse(rawData);
 
     // Get the signer address
     const signers = await ethers.getSigners();

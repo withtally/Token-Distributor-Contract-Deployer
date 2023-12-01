@@ -1,6 +1,7 @@
 import { task } from "hardhat/config";
 import type { TaskArguments } from "hardhat/types";
 import { TokenDistributor, TokenDistributor__factory } from "../types";
+import fs from "fs";
 
 task("claim", "Claims tokens from a token distributor.")
   .addParam(
@@ -13,8 +14,9 @@ task("claim", "Claims tokens from a token distributor.")
 
     const { distributor, json } = taskArgs;
 
-    // Load the JSON file
-    const jsonC = require(json);
+    // Read the content of the JSON file
+    const rawData = fs.readFileSync(json, 'utf-8');
+    const jsonC = JSON.parse(rawData);
 
     // Get the signer address
     const signers = await ethers.getSigners();
