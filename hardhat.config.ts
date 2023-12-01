@@ -14,6 +14,8 @@ import "hardhat-deploy";
 import "./tasks/deploy_token_distributor";
 import "./tasks/merkle_tree_generation";
 import "./tasks/deploy_token";
+import "./tasks/claimAndDelegate_from_distributor";
+import "./tasks/claim_from_distributor";
 
 /* ========== DATA FROM .env ===========*/
 // Private key
