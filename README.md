@@ -40,7 +40,9 @@ npx hardhat compile
 
 Ensure the token contract is deployed before using the hardhat tasks, owing to a delegate method within the vanilla Token Distributor.
 
-For the hardhat tasks in this repository to function, copy .env.example and create a .env. Populate the .env with your nodes and apikeys (not all fields need to be filled, only those relevant to your chosen network and explorer).
+For the hardhat tasks in this repository to function, copy .env.example to create a .env. Populate the .env with your nodes and apikeys (not all fields need to be filled, only those relevant to your chosen network and explorer).
+
+`cp .env.example .env`
 
 ### Merkle Tree Generator
 
