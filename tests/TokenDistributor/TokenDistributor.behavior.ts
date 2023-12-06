@@ -5,6 +5,7 @@ import hre from "hardhat";
 // import json from files
 import * as TDParameters from "./TokenDistributor.param";
 import { signDelegateTransaction } from "../../helpers/sign";
+import type { TokenDistributor } from "../../types/contracts/TokenDistributor";
 
 export function shouldBehaveLikeTD(): void {
   it("should initialize the contract correctly", async function () {
@@ -23,7 +24,9 @@ export function shouldBehaveLikeTD(): void {
     );
   });
 
-  it("token distributor claim works", async function () {
+  it("token distributor claim should work", async function () {
+    await hre.network.provider.send("evm_increaseTime", [2]);
+    await hre.network.provider.send("evm_mine");
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
 
@@ -41,6 +44,8 @@ export function shouldBehaveLikeTD(): void {
   });
 
   it("claimAndDelegate should work", async function () {
+    await hre.network.provider.send("evm_increaseTime", [2]);
+    await hre.network.provider.send("evm_mine");
     // const erc20 = getErc20(tokenAddress, signer)
     const erc20 = await this.token;
     const json = TDParameters.json;
@@ -83,5 +88,19 @@ export function shouldBehaveLikeTD(): void {
         json[fromAddress].amount
         // 0
       );
+  });
+
+  it("should emit correct event when sweep works", async function () {
+    const sweepReceiver = await this.signers.admin.getAddress();
+
+    // Advance the chain in time by 1 day (86400 seconds) and some seconds.
+    await hre.network.provider.send("evm_increaseTime", [86500]);
+    await hre.network.provider.send("evm_mine");
+
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .sweep(sweepReceiver)
+    ).to.emit(this.tokenDistributor, "Swept");
   });
 }

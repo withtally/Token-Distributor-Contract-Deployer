@@ -6,6 +6,7 @@
 import "dotenv/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
+import "hardhat-gas-reporter";
 // import type { HardhatUserConfig } from "hardhat/config";
 // import type { NetworkUserConfig } from "hardhat/types";
 
