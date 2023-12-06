@@ -169,11 +169,6 @@ export async function shouldBehaveLikeTD(): Promise<void> {
         s
       );
     
-    console.log(
-      "amount",
-      json[fromAddress].amount
-    )
-    
     // Check if the Claimed event is emitted
     expect(claimAndDelegateTx)
       .to.emit(this.tokenDistributor, "Claimed")
