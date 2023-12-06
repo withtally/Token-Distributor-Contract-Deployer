@@ -37,7 +37,8 @@ export async function shouldBehaveLikeTD(): Promise<void> {
       this.tokenDistributor
         .connect(this.signers.admin)
         .claim(json[pubKey].proofs, json[pubKey].amount)
-    ).to.emit(this.tokenDistributor, "Claimed")
+    )
+      .to.emit(this.tokenDistributor, "Claimed")
       .withArgs(
         pubKey,
         json[pubKey].amount
@@ -46,7 +47,7 @@ export async function shouldBehaveLikeTD(): Promise<void> {
 
     // check total amount decreases.
     expect(await this.tokenDistributor.totalClaimable()).to.equal(
-      (BigInt(this.totalClaimable) - BigInt(json[pubKey].amount))
+      BigInt(this.totalClaimable) - BigInt(json[pubKey].amount)
     );
   });
 
@@ -60,7 +61,8 @@ export async function shouldBehaveLikeTD(): Promise<void> {
       this.tokenDistributor
         .connect(this.signers.admin)
         .claim(json[pubKey].proofs, json[pubKey].amount)
-    ).to.emit(this.tokenDistributor, "Claimed")
+    )
+      .to.emit(this.tokenDistributor, "Claimed")
       .withArgs(
         pubKey,
         json[pubKey].amount
@@ -71,7 +73,10 @@ export async function shouldBehaveLikeTD(): Promise<void> {
       this.tokenDistributor
         .connect(this.signers.admin)
         .claim(json[pubKey].proofs, json[pubKey].amount)
-    ).to.revertedWithCustomError(this.tokenDistributor, "TokenDistributor_AlreadyClaimed");
+    ).to.revertedWithCustomError(
+      this.tokenDistributor,
+      "TokenDistributor_AlreadyClaimed"
+    );
   });
 
   it("claimAndDelegate should work", async function () {
@@ -177,6 +182,64 @@ export async function shouldBehaveLikeTD(): Promise<void> {
         .connect(this.signers.admin)
         .withdraw(receiver, TDParameters.totalClaimable + 1)
     ).to.revertedWithCustomError(this.token, "ERC20InsufficientBalance");
+  });
+
+  it("should revert when claiming with an Merkle proof but for a different user or amount", async function () {
+    const pubKey = this.signers.admin.address;
+    const json = TDParameters.json;
+
+    // iterate and get second item on json
+    const secondItem = Object.keys(json)[1];
+
+    // diff proof
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim(json[secondItem].proofs, json[pubKey].amount)
+    ).to.be.revertedWithCustomError(
+      this.tokenDistributor,
+      "TokenDistributor_FailedMerkleProofVerify"
+    );
+
+    // diff amount
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim(json[pubKey].proofs, 100)
+    ).to.be.revertedWithCustomError(
+      this.tokenDistributor,
+      "TokenDistributor_FailedMerkleProofVerify"
+    );
+  });
+
+  it("should revert when claiming with an invalid Merkle proof", async function () {
+    const pubKey = this.signers.admin.address;
+    const json = TDParameters.json;
+
+    // wrong proof
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim(["0x6323785e6857c4be0a156e055bf0790ba75655d200ccf955daac387b135af20d",
+        "0x6b4be7d3c6e80226cdb83c1357b07063f385744759db01f3d993798745b3ef8c",
+        "0x0e61eb273cb2b476a013d69b61fa162c47404736ad930086d3c9f21f2ad722d6",
+        "0x13a7d9c6921c6a406e03f47526813f73690838a409475d6a2f2ea89ddcfba9e7",
+        "0xb8834161a37e793afd1321526c665ed21b6919f7a7aae14a0d7ab834e2ac88c8",
+        "0x29b94a6e2647951816c7bf1febc8f8f3b92fb5027b3f34a635db59d584bb3ce3"], json[pubKey].amount)
+    ).to.be.revertedWithCustomError(
+      this.tokenDistributor,
+      "TokenDistributor_FailedMerkleProofVerify"
+    );
+
+    // empty proof
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim([], json[pubKey].amount)
+    ).to.be.revertedWithCustomError(
+      this.tokenDistributor,
+      "TokenDistributor_FailedMerkleProofVerify"
+    );
   });
 
   describe("Unauthorized", function () {
