@@ -4,7 +4,7 @@ import { expect } from "chai";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 
 import type { Signers } from "../types";
-import { shouldBehaveLikeTD } from "./TokenDistributor.behavior";
+import { shouldBehaveLikeTD,shouldNotDeploy } from "./TokenDistributor.behavior";
 import {
   deployTokenDistributorFixture,
   deployTokenFixture,
@@ -17,11 +17,14 @@ describe("TokenDistributor", async function () {
 
     const signers = await ethers.getSigners();
     this.signers.admin = signers[0];
+    this.signers.notAuthorized = signers[1];
 
     this.root = TDParameters.root;
     this.totalClaimable = TDParameters.totalClaimable;
     this.claimPeriodStart = TDParameters.claimPeriodStart;
     this.claimPeriodEnd = TDParameters.claimPeriodEnd;
+
+    
     // this.delegateTo = TDParameters.delegateTo;
 
     this.loadFixture = loadFixture;
@@ -47,34 +50,7 @@ describe("TokenDistributor", async function () {
   });
 
   shouldBehaveLikeTD();
+
+  shouldNotDeploy();
 });
 
-describe("TokenDistributor Start and END is the same", async function () {
-  it("should revert when initializing the contract incorrectly ", async function () {
-    this.loadFixture = loadFixture;
-
-    const signers = await ethers.getSigners();
-    const admin = signers[0];
-    const { token } = await this.loadFixture(deployTokenFixture);
-    this.token = token;
-
-    this.root = TDParameters.root;
-    this.totalClaimable = TDParameters.totalClaimable;
-    this.claimPeriodStart = TDParameters.claimPeriodStart;
-    this.claimPeriodEnd = TDParameters.claimPeriodStart;
-
-    const TokenDistributor = await ethers.getContractFactory(
-      "TokenDistributor"
-    );
-   await expect( TokenDistributor.connect(admin).deploy(
-      TDParameters.root,
-      token,
-      TDParameters.totalClaimable,
-      TDParameters.claimPeriodStart,
-      TDParameters.claimPeriodStart,
-      admin.address
-      
-      ) ).to.be.revertedWithCustomError(TokenDistributor,"NotGreaterThan");
-  });
-
-});
