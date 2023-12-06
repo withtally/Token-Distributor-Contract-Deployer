@@ -73,7 +73,6 @@ export async function shouldBehaveLikeTD(): Promise<void> {
       .withArgs(
         pubKey,
         json[pubKey].amount
-        // 0
       );
 
     // check total amount decreases.
@@ -126,49 +125,78 @@ export async function shouldBehaveLikeTD(): Promise<void> {
   it("claimAndDelegate should work", async function () {
     await hre.network.provider.send("evm_increaseTime", [20]);
     await hre.network.provider.send("evm_mine");
-    // const erc20 = getErc20(tokenAddress, signer)
+  
     const erc20 = await this.token;
     const json = TDParameters.json;
-
+  
     const fromAddress = await this.signers.admin.getAddress();
+    const toAddress = await this.signers.notAuthorized.getAddress();
+
     const nonce = await erc20.nonces(fromAddress);
-
+  
     const expiry = Math.floor(Date.now() / 1000) + 60 * 60 * 24; // 24 hours
-
-    // get chainID on hardhat test
-    const chainId = hre.network.config.chainId;
-
+  
+    const chainId = hre.network.config.chainId || 31337;
+  
     const signature = await signDelegateTransaction({
       contractAddress: await erc20.getAddress(),
       contractName: await erc20.name(),
-      delegateeAddress: fromAddress,
-      chainId: chainId ? chainId : 31337,
+      delegateeAddress: toAddress,
+      chainId,
       nonce,
       expiry,
       signer: this.signers.admin,
     });
-
+  
     const { v, r, s } = ethers.Signature.from(signature);
-    await expect(
-      this.tokenDistributor
-        .connect(this.signers.admin)
-        .claimAndDelegate(
-          json[fromAddress].proofs,
-          json[fromAddress].amount,
-          fromAddress,
-          expiry,
-          v,
-          r,
-          s
-        )
-    )
-      .to.emit(this.tokenDistributor, "Claimed")
-      .withArgs(
-        fromAddress,
-        json[fromAddress].amount
-        // 0
+  
+    // Get the balance of the address before claiming
+    const initialBalance = await erc20.balanceOf(fromAddress);
+  
+    // Get the delegation status before claiming
+    const isDelegatingBefore = (await erc20.getVotes(toAddress)) > 0;
+  
+    // Claim and delegate
+    const claimAndDelegateTx = await this.tokenDistributor
+      .connect(this.signers.admin)
+      .claimAndDelegate(
+        json[fromAddress].proofs,
+        json[fromAddress].amount,
+        toAddress,
+        expiry,
+        v,
+        r,
+        s
       );
-  });
+    
+    console.log(
+      "amount",
+      json[fromAddress].amount
+    )
+    
+    // Check if the Claimed event is emitted
+    expect(claimAndDelegateTx)
+      .to.emit(this.tokenDistributor, "Claimed")
+      .withArgs(fromAddress, json[fromAddress].amount);
+  
+    // Check if the Delegated event is emitted
+    expect(claimAndDelegateTx)
+      .to.emit(this.tokenDistributor, "Delegated")
+      .withArgs(toAddress, json[fromAddress].amount);
+  
+    // Get the balance of the address after claiming
+    const finalBalance = await erc20.balanceOf(fromAddress);
+  
+    // Get the delegation status after claiming
+    const isDelegatingAfter = BigInt(await erc20.getVotes(toAddress)) > 0;
+  
+    // Assert that the balance increased after claiming
+    expect(finalBalance).to.be.equal( BigInt(initialBalance) + BigInt(json[fromAddress].amount ));
+  
+    // Assert that the address is now delegating
+    expect(isDelegatingBefore).to.be.false;
+    expect(isDelegatingAfter).to.be.true;
+  });  
 
   it("should emit correct event when sweep works", async function () {
     const sweepReceiver = await this.signers.admin.getAddress();
