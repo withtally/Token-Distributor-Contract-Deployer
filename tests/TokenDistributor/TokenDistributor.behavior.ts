@@ -11,6 +11,21 @@ import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { deployTokenFixture } from "./TokenDistributor.fixture";
 
 export async function shouldBehaveLikeTD(): Promise<void> {
+
+  it("delegation at deploy should emit event",async function(){
+
+    const TokenDistributor = await ethers.getContractFactory("TokenDistributor");
+     expect( await TokenDistributor.connect(this.signers.admin).deploy(
+      TDParameters.root,
+      this.token.getAddress(),
+      TDParameters.totalClaimable,
+      TDParameters.claimPeriodStart,
+      TDParameters.claimPeriodEnd,
+      this.signers.admin.getAddress(),
+    )).to.emit(TokenDistributor, "Delegated")
+    
+  });
+
   it("should initialize the contract correctly", async function () {
     expect(await this.tokenDistributor.root()).to.equal(this.root);
     expect(await this.tokenDistributor.token()).to.equal(
@@ -27,9 +42,25 @@ export async function shouldBehaveLikeTD(): Promise<void> {
     );
   });
 
+  it("should revert when claiming before claim period starts", async function () {
+    const pubKey = this.signers.admin.address;
+    const json = TDParameters.json;
+
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim(json[pubKey].proofs, json[pubKey].amount)
+    ).to.be.revertedWithCustomError(
+      this.tokenDistributor,
+      "TokenDistributor_ClaimPeriodNotStarted"
+    );
+  });
+
   it("token distributor claim should work", async function () {
-    await hre.network.provider.send("evm_increaseTime", [2]);
+
+    await hre.network.provider.send("evm_increaseTime", [20]);
     await hre.network.provider.send("evm_mine");
+
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
 
@@ -52,7 +83,7 @@ export async function shouldBehaveLikeTD(): Promise<void> {
   });
 
   it("should revert because it can only claim once", async function () {
-    await hre.network.provider.send("evm_increaseTime", [2]);
+    await hre.network.provider.send("evm_increaseTime", [20]);
     await hre.network.provider.send("evm_mine");
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
@@ -79,8 +110,21 @@ export async function shouldBehaveLikeTD(): Promise<void> {
     );
   });
 
+  it("revert when claiming 0", async function () {
+    await hre.network.provider.send("evm_increaseTime", [20]);
+    await hre.network.provider.send("evm_mine");
+    const pubKey = this.signers.admin.address;
+    const json = TDParameters.json;
+
+    await expect(
+      this.tokenDistributor
+        .connect(this.signers.admin)
+        .claim(json[pubKey].proofs, 0)
+    ).to.reverted;
+  });
+
   it("claimAndDelegate should work", async function () {
-    await hre.network.provider.send("evm_increaseTime", [2]);
+    await hre.network.provider.send("evm_increaseTime", [20]);
     await hre.network.provider.send("evm_mine");
     // const erc20 = getErc20(tokenAddress, signer)
     const erc20 = await this.token;
@@ -138,19 +182,6 @@ export async function shouldBehaveLikeTD(): Promise<void> {
     ).to.emit(this.tokenDistributor, "Swept");
   });
 
-  it("revert when claiming 0", async function () {
-    await hre.network.provider.send("evm_increaseTime", [2]);
-    await hre.network.provider.send("evm_mine");
-    const pubKey = this.signers.admin.address;
-    const json = TDParameters.json;
-
-    await expect(
-      this.tokenDistributor
-        .connect(this.signers.admin)
-        .claim(json[pubKey].proofs, 0)
-    ).to.reverted;
-  });
-
   it("should revert when sweep is outside time range permited", async function () {
     const sweepReceiver = await this.signers.admin.getAddress();
 
@@ -185,6 +216,9 @@ export async function shouldBehaveLikeTD(): Promise<void> {
   });
 
   it("should revert when claiming with an Merkle proof but for a different user or amount", async function () {
+    await hre.network.provider.send("evm_increaseTime", [20]);
+    await hre.network.provider.send("evm_mine");
+    
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
 
@@ -213,6 +247,9 @@ export async function shouldBehaveLikeTD(): Promise<void> {
   });
 
   it("should revert when claiming with an invalid Merkle proof", async function () {
+    await hre.network.provider.send("evm_increaseTime", [20]);
+    await hre.network.provider.send("evm_mine");
+   
     const pubKey = this.signers.admin.address;
     const json = TDParameters.json;
 
@@ -262,6 +299,7 @@ export async function shouldBehaveLikeTD(): Promise<void> {
       ).to.be.revertedWithCustomError(this.tokenDistributor, "Unauthorized");
     });
   });
+
 }
 
 export function shouldNotDeploy(): void {
