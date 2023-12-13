@@ -25,7 +25,7 @@ npx hardhat compile
 
 ✅ Token claiming through contract integration
 
-## Using it with Tally
+## 🧐 Using it with Tally
 
 0. Deploy your token contract beforehand; refer to the [docs](https://docs.tally.xyz/user-guides/tally-contract-compatibility/tokens-erc-20-and-nfts).
 1. Create your list as outlined [here](#create-your-list).
