@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { ethers } from "ethers";
 // import json from files
 import * as TDParameters from "../TokenDistributor/TokenDistributor.param";
-import { standardLeafHash as hashingFunction } from "tally-merkle-tree";
+import { standardLeafHash as hashingFunction } from "@tallyxyz/merkle-tree";
 
 export function shouldVerifyCorrectly(): void {
 

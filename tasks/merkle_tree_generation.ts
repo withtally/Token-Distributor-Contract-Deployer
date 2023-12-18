@@ -1,6 +1,6 @@
 
 // import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
-import { StandardMerkleTree } from "tally-merkle-tree";
+import { StandardMerkleTree } from "@tallyxyz/merkle-tree";
 
 import { readCSV } from "../helpers/merkle_tree";
 import fs from "fs";
