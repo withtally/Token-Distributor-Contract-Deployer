@@ -72,8 +72,7 @@ To generate the Merkle tree, you need a CSV in the following format:
 After preparing the CSV file, run the following command:
 
 ```bash
-npx hardhat tree 
-  --csv /path/to/file
+npx hardhat tree --csv /path/to/file
 
 # Example output:
 Merkle Tree
