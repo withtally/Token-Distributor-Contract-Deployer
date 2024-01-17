@@ -12,10 +12,11 @@ The Token Distributor enables the distribution of ERC20 tokens through Merkle pr
 
 ```bash
 pnpm install
-pnpm clean
-pnpm test
 npx hardhat compile
+pnpm test
 ```
+
+You can also clean if needed `pnpm clean`.
 
 **Features:**
 
@@ -43,6 +44,8 @@ Ensure the token contract is deployed before using the hardhat tasks, owing to a
 For the hardhat tasks in this repository to function, copy .env.example to create a .env. Populate the .env with your nodes and apikeys (not all fields need to be filled, only those relevant to your chosen network and explorer).
 
 `cp .env.example .env`
+
+You have to fill it up with your private key and RPCs you need to use.
 
 ### Merkle Tree Generator
 
@@ -126,11 +129,13 @@ bytes32 leaf = keccak256(abi.encodePacked(_user, _amount));
 
 Deploy a new Token Distributor contract:
 
+Please substitute 0xTOKEN_ADDRESS nad 0xDELEGATE_ADDRESS. ( delegate address is optional, you can remove it from the deployer ).
+
 ```bash
 npx hardhat tokenDistributor \
   --network hardhat \
   --root 0xROOT_OF_MERKLE_TREE \ 
-  --token 0xDELEGATE_ADDRESS
+  --token 0xTOKEN_ADDRESS
   --total 1000000 \
   --start 1000 \ 
   --end 2000 \
