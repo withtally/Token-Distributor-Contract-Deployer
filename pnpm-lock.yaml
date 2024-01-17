@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  csv-writer:
+    specifier: ^1.6.0
+    version: 1.6.0
+
 devDependencies:
   '@nomicfoundation/hardhat-chai-matchers':
     specifier: ^2.0.0
@@ -2078,6 +2083,10 @@ packages:
     dependencies:
       minimist: 1.2.8
     dev: true
+
+  /csv-writer@1.6.0:
+    resolution: {integrity: sha512-NOx7YDFWEsM/fTRAJjRpPp8t+MKRVvniAg9wQlUKx20MFrPs73WLJhFf5iteqrxNYnsy924K3Iroh3yNHeYd2g==}
+    dev: false
 
   /death@1.1.0:
     resolution: {integrity: sha512-vsV6S4KVHvTGxbEcij7hkWRv0It+sGGWVOM67dQde/o5Xjnr+KmLjxWJii2uEObIrt1CcM9w0Yaovx+iOlIL+w==}

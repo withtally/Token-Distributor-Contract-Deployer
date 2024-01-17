@@ -23,6 +23,7 @@ const tokenDistributor = async (
     ethers: any,
     gas: string = "30000000"
 ) => {
+
     // We get the contract to deploy
     const TokenDistributor = await ethers.getContractFactory("TokenDistributor");
 
@@ -34,7 +35,9 @@ const tokenDistributor = async (
         _claimPeriodStart,
         _claimPeriodEnd,
         _delegateTo,
-        { gasLimit: gas } // Pass the gas limit value as an option
+        {
+            gasLimit: gas,
+        } // Pass the gas limit value as an option
     );
 
     // await deploy and get block number

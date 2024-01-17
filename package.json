@@ -40,6 +40,7 @@
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "@nomicfoundation/hardhat-verify": "^1.0.0",
     "@openzeppelin/contracts": "5.0.0",
+    "@tallyxyz/merkle-tree": "^1.0.7",
     "@typechain/ethers-v6": "^0.4.0",
     "@typechain/hardhat": "^8.0.0",
     "@types/chai": "^4.2.0",
@@ -50,8 +51,11 @@
     "dotenv": "^16.0.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.4.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.1.1",
     "ethers": "^6.4.0",
     "hardhat": "^2.19.0",
     "hardhat-deploy": "^0.11.29",
@@ -62,12 +66,11 @@
     "solhint": "^3.4.0",
     "solhint-plugin-prettier": "^0.0.5",
     "solidity-coverage": "^0.8.5",
-    "@tallyxyz/merkle-tree": "^1.0.7",
     "ts-node": "^10.9.1",
     "typechain": "^8.2.0",
-    "typescript": "^4.9.3",
-    "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-n": "^16.4.0",
-    "eslint-plugin-promise": "^6.1.1"
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "csv-writer": "^1.6.0"
   }
 }
