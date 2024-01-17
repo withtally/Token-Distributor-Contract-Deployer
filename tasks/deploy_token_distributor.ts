@@ -78,7 +78,7 @@ task("tokenDistributor", "Deploys a token distributor.")
       fs.appendFileSync(
         "contracts.out",
         `${new Date()}\nToken contract deployed at: ${
-          TokenDistributor.address
+          await TokenDistributor.getAddress()
         }` +
           ` - ${network.name} - block number: ${tdBlock?.number}\n${verify_str}\n\n`
       );
